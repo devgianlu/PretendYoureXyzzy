@@ -313,7 +313,7 @@ public class Constants {
     SERVER_STARTED("SS"),
     SESSION_PERMALINK("sP"),
     USER_PERMALINK("up"),
-    GAME_SHARE_LINK("gsl"),
+    GAME_SHARE_ID("gsi"),
     @GoDataType("[]int")
     WHITE_CARDS("wc");
 

@@ -26,7 +26,7 @@ public class ShareGameHandler extends GameWithPlayerHandler {
   @Override
   public Map<Constants.ReturnableData, Object> handleWithUserInGame(RequestWrapper request, HttpSession session, User user, Game game) {
     Map<Constants.ReturnableData, Object> ret = new HashMap<>();
-    ret.put(Constants.AjaxResponse.GAME_SHARE_LINK, game.getShareLink());
+    ret.put(Constants.AjaxResponse.GAME_SHARE_ID, game.getShareId());
     return ret;
   }
 }

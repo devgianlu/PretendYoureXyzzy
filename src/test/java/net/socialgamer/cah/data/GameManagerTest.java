@@ -149,7 +149,7 @@ public class GameManagerTest {
       }
 
       @Provides
-      @CahModule.GameShareLink
+      @CahModule.GameShareId
       String provideGameShareLink() {
         return UUID.randomUUID().toString();
       }

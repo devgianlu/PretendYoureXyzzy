@@ -127,8 +127,8 @@ public class CahModule extends AbstractModule {
   }
 
   @Provides
-  @GameShareLink
-  String provideGameShareLink() {
+  @GameShareId
+  String provideGameShareId() {
     return UUID.randomUUID().toString();
   }
 
@@ -394,6 +394,6 @@ public class CahModule extends AbstractModule {
 
   @BindingAnnotation
   @Retention(RetentionPolicy.RUNTIME)
-  public @interface GameShareLink {
+  public @interface GameShareId {
   }
 }

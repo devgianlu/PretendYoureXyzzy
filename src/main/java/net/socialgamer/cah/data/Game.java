@@ -124,7 +124,7 @@ public class Game {
   private final PlayerPlayedCardsTracker playedCards = new PlayerPlayedCardsTracker();
   private final List<User> spectators = Collections.synchronizedList(new ArrayList<User>(10));
   private final ConnectedUsers connectedUsers;
-  private final String shareLink;
+  private final String shareId;
   private final GameManager gameManager;
   private final Provider<Session> sessionProvider;
   private final Object blackCardLock = new Object();
@@ -178,7 +178,7 @@ public class Game {
    */
   @Inject
   public Game(@GameId final Integer id, final ConnectedUsers connectedUsers,
-              @GameShareLink final String shareLink,
+              @GameShareId final String shareId,
               final GameManager gameManager, final ScheduledThreadPoolExecutor globalTimer,
               final Provider<Session> sessionProvider,
               final Provider<CardcastService> cardcastServiceProvider,
@@ -189,7 +189,7 @@ public class Game {
               @GamePermalinkUrlFormat final Provider<String> gamePermalinkFormatProvider) {
     this.id = id;
     this.connectedUsers = connectedUsers;
-    this.shareLink = shareLink;
+    this.shareId = shareId;
     this.gameManager = gameManager;
     this.globalTimer = globalTimer;
     this.sessionProvider = sessionProvider;
@@ -1535,8 +1535,8 @@ public class Game {
     return null;
   }
 
-  public String getShareLink() {
-    return shareLink;
+  public String getShareId() {
+    return shareId;
   }
 
   /**
