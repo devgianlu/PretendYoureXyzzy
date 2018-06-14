@@ -37,14 +37,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.ServletContext;
 
+import com.google.inject.*;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.inject.AbstractModule;
-import com.google.inject.BindingAnnotation;
-import com.google.inject.Provides;
-import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 import net.socialgamer.cah.data.GameManager;
@@ -126,6 +123,12 @@ public class CahModule extends AbstractModule {
   @Provides
   @UserPersistentId
   String provideUserPersistentId() {
+    return UUID.randomUUID().toString();
+  }
+
+  @Provides
+  @GameShareLink
+  String provideGameShareLink() {
     return UUID.randomUUID().toString();
   }
 
@@ -387,5 +390,10 @@ public class CahModule extends AbstractModule {
   @BindingAnnotation
   @Retention(RetentionPolicy.RUNTIME)
   public @interface Admins {
+  }
+
+  @BindingAnnotation
+  @Retention(RetentionPolicy.RUNTIME)
+  public @interface GameShareLink {
   }
 }

@@ -31,6 +31,7 @@ public class Handlers {
     LIST.put(PlayCardHandler.OP, PlayCardHandler.class);
     LIST.put(RegisterHandler.OP, RegisterHandler.class);
     LIST.put(ScoreHandler.OP, ScoreHandler.class);
+    LIST.put(ShareGameHandler.OP, ShareGameHandler.class);
     LIST.put(SpectateGameHandler.OP, SpectateGameHandler.class);
     LIST.put(StartGameHandler.OP, StartGameHandler.class);
     LIST.put(StopGameHandler.OP, StopGameHandler.class);

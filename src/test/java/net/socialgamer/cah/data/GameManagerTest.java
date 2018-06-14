@@ -35,10 +35,12 @@ import static org.junit.Assert.assertNull;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.UUID;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import net.socialgamer.cah.CahModule;
 import org.hibernate.Session;
 import org.junit.After;
 import org.junit.Before;
@@ -147,6 +149,12 @@ public class GameManagerTest {
       }
 
       @Provides
+      @CahModule.GameShareLink
+      String provideGameShareLink() {
+        return UUID.randomUUID().toString();
+      }
+
+      @Provides
       @UniqueId
       String provideUniqueId() {
         return "1";
@@ -170,15 +178,15 @@ public class GameManagerTest {
     // fill it up with 3 games
     assertEquals(0, gameManager.get().intValue());
     gameManager.getGames().put(0,
-        new Game(0, cuMock, gameManager, timer, null, null, null, metricsMock, falseProvider,
+        new Game(0, cuMock, null, gameManager, timer, null, null, null, metricsMock, falseProvider,
             formatProvider, falseProvider, formatProvider));
     assertEquals(1, gameManager.get().intValue());
     gameManager.getGames().put(1,
-        new Game(1, cuMock, gameManager, timer, null, null, null, metricsMock, falseProvider,
+        new Game(1, cuMock, null, gameManager, timer, null, null, null, metricsMock, falseProvider,
             formatProvider, falseProvider, formatProvider));
     assertEquals(2, gameManager.get().intValue());
     gameManager.getGames().put(2,
-        new Game(2, cuMock, gameManager, timer, null, null, null, metricsMock, falseProvider,
+        new Game(2, cuMock, null, gameManager, timer, null, null, null, metricsMock, falseProvider,
             formatProvider, falseProvider, formatProvider));
     // make sure it says it can't make any more
     assertEquals(-1, gameManager.get().intValue());
@@ -188,7 +196,7 @@ public class GameManagerTest {
     // make sure it re-uses that id
     assertEquals(1, gameManager.get().intValue());
     gameManager.getGames().put(1,
-        new Game(1, cuMock, gameManager, timer, null, null, null, metricsMock, falseProvider,
+        new Game(1, cuMock,null,  gameManager, timer, null, null, null, metricsMock, falseProvider,
             formatProvider, falseProvider, formatProvider));
     assertEquals(-1, gameManager.get().intValue());
 
@@ -196,7 +204,7 @@ public class GameManagerTest {
     gameManager.getGames().remove(1);
     assertEquals(1, gameManager.get().intValue());
     gameManager.getGames().put(1,
-        new Game(1, cuMock, gameManager, timer, null, null, null, metricsMock, falseProvider,
+        new Game(1, cuMock, null, gameManager, timer, null, null, null, metricsMock, falseProvider,
             formatProvider, falseProvider, formatProvider));
     assertEquals(-1, gameManager.get().intValue());
 

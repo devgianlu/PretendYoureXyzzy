@@ -188,6 +188,7 @@ public class Constants {
     SCORE("SC"),
     START_GAME("sg"),
     STOP_GAME("Sg"),
+    SHARE_GAME("shg"),
     WHOIS("Wi");
 
     private final String op;
@@ -312,6 +313,7 @@ public class Constants {
     SERVER_STARTED("SS"),
     SESSION_PERMALINK("sP"),
     USER_PERMALINK("up"),
+    GAME_SHARE_LINK("gsl"),
     @GoDataType("[]int")
     WHITE_CARDS("wc");
 
