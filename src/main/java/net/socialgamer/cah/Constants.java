@@ -416,7 +416,8 @@ public class Constants {
         "You used too many special characters in that message."),
     TOO_MANY_USERS("tmu", "There are too many users connected. Either join another server, or " +
         "wait for a user to disconnect."),
-    WRONG_PASSWORD("wp", "That password is incorrect.");
+    WRONG_PASSWORD("wp", "That password is incorrect."),
+    INVALID_GAME_SHARE_ID("igsi", "Invalid game share id!");
 
     private final String code;
     private final String message;
