@@ -45,23 +45,23 @@ cah.longpoll.EventHandlers[cah.$.LongPollEvent.PLAYER_LEAVE] = function (data) {
     var friendly_reason = "Leaving";
     var show = !cah.hideConnectQuit;
     switch (data[cah.$.LongPollResponse.REASON]) {
-        case cah.$.DisconnectReason.BANNED:
-            friendly_reason = "Banned";
-            show = true;
-            break;
-        case cah.$.DisconnectReason.IDLE_TIMEOUT:
-            friendly_reason = "Kicked due to idle";
-            break;
-        case cah.$.DisconnectReason.KICKED:
-            friendly_reason = "Kicked by server administrator";
-            show = true;
-            break;
-        case cah.$.DisconnectReason.MANUAL:
-            friendly_reason = "Leaving";
-            break;
-        case cah.$.DisconnectReason.PING_TIMEOUT:
-            friendly_reason = "Ping timeout";
-            break;
+    case cah.$.DisconnectReason.BANNED:
+        friendly_reason = "Banned";
+        show = true;
+        break;
+    case cah.$.DisconnectReason.IDLE_TIMEOUT:
+        friendly_reason = "Kicked due to idle";
+        break;
+    case cah.$.DisconnectReason.KICKED:
+        friendly_reason = "Kicked by server administrator";
+        show = true;
+        break;
+    case cah.$.DisconnectReason.MANUAL:
+        friendly_reason = "Leaving";
+        break;
+    case cah.$.DisconnectReason.PING_TIMEOUT:
+        friendly_reason = "Ping timeout";
+        break;
     }
     if (show) {
         cah.log.status(data[cah.$.LongPollResponse.NICKNAME] + " has disconnected (" + friendly_reason
@@ -261,12 +261,12 @@ cah.longpoll.EventHandlers.__gameEvent = function (data, func, funcData, errorSt
     }
 };
 
-cah.longpoll.EventHandlers[cah.$.LongPollEvent.ADD_CARDSET] = function(data) {
-  cah.longpoll.EventHandlers.__gameEvent(data, cah.Game.prototype.customDeckAdded, data[cah.$.LongPollResponse.CUSTOM_DECK_INFO],
-      "add custom deck");
+cah.longpoll.EventHandlers[cah.$.LongPollEvent.ADD_CARDSET] = function (data) {
+    cah.longpoll.EventHandlers.__gameEvent(data, cah.Game.prototype.customDeckAdded, data[cah.$.LongPollResponse.CUSTOM_DECK_INFO],
+        "add custom deck");
 };
 
-cah.longpoll.EventHandlers[cah.$.LongPollEvent.REMOVE_CARDSET] = function(data) {
-  cah.longpoll.EventHandlers.__gameEvent(data, cah.Game.prototype.customDeckRemoved, data[cah.$.LongPollResponse.CUSTOM_DECK_INFO],
-      "remove custom deck");
+cah.longpoll.EventHandlers[cah.$.LongPollEvent.REMOVE_CARDSET] = function (data) {
+    cah.longpoll.EventHandlers.__gameEvent(data, cah.Game.prototype.customDeckRemoved, data[cah.$.LongPollResponse.CUSTOM_DECK_INFO],
+        "remove custom deck");
 };

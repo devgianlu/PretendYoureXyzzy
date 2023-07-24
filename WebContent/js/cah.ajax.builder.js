@@ -192,29 +192,29 @@ cah.ajax.Builder.prototype.withEmote = function (emote) {
  * @param {string} json The custom deck JSON
  * @returns {cah.ajax.Builder} This object.
  */
-cah.ajax.Builder.prototype.withCustomDeckJson = function(json) {
-  this.assertNotExecuted_();
-  this.data[cah.$.AjaxRequest.CUSTOM_CARDSET_JSON] = json;
-  return this;
+cah.ajax.Builder.prototype.withCustomDeckJson = function (json) {
+    this.assertNotExecuted_();
+    this.data[cah.$.AjaxRequest.CUSTOM_CARDSET_JSON] = json;
+    return this;
 };
 
 /**
  * @param {string} url The custom deck URL
  * @returns {cah.ajax.Builder} This object.
  */
-cah.ajax.Builder.prototype.withCustomDeckUrl = function(url) {
-  this.assertNotExecuted_();
-  this.data[cah.$.AjaxRequest.CUSTOM_CARDSET_URL] = url;
-  return this;
+cah.ajax.Builder.prototype.withCustomDeckUrl = function (url) {
+    this.assertNotExecuted_();
+    this.data[cah.$.AjaxRequest.CUSTOM_CARDSET_URL] = url;
+    return this;
 };
 
 /**
  * @param {int} id The custom deck ID
  * @returns {cah.ajax.Builder} This object.
  */
-cah.ajax.Builder.prototype.withCustomDeckId = function(id) {
+cah.ajax.Builder.prototype.withCustomDeckId = function (id) {
     this.assertNotExecuted_();
-  this.data[cah.$.AjaxRequest.CUSTOM_CARDSET_ID] = id;
+    this.data[cah.$.AjaxRequest.CUSTOM_CARDSET_ID] = id;
     return this;
 };
 

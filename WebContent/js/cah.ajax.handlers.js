@@ -67,16 +67,16 @@ cah.ajax.SuccessHandlers[cah.$.AjaxOperation.FIRST_LOAD] = function (data) {
         cah.ajax.after_registered();
 
         switch (data[cah.$.AjaxResponse.NEXT]) {
-            case cah.$.ReconnectNextAction.GAME:
-                cah.log.status("Reconnecting to game...");
-                cah.Game.joinGame(data[cah.$.AjaxResponse.GAME_ID], data);
-                cah.ajax.hasAutojoinedGame_ = true;
-                break;
-            case cah.$.ReconnectNextAction.NONE:
-                // pass
-                break;
-            default:
-                cah.log.error("Unknown reconnect next action " + data[cah.$.AjaxResponse.NEXT]);
+        case cah.$.ReconnectNextAction.GAME:
+            cah.log.status("Reconnecting to game...");
+            cah.Game.joinGame(data[cah.$.AjaxResponse.GAME_ID], data);
+            cah.ajax.hasAutojoinedGame_ = true;
+            break;
+        case cah.$.ReconnectNextAction.NONE:
+            // pass
+            break;
+        default:
+            cah.log.error("Unknown reconnect next action " + data[cah.$.AjaxResponse.NEXT]);
         }
     }
 };
@@ -300,19 +300,19 @@ cah.ajax.SuccessHandlers[cah.$.AjaxOperation.SCORE] = function (data, req) {
     }
 };
 
-cah.ajax.SuccessHandlers[cah.$.AjaxOperation.ADD_CARDSET] = function(data) {
+cah.ajax.SuccessHandlers[cah.$.AjaxOperation.ADD_CARDSET] = function (data) {
     // pass
 };
 
-cah.ajax.SuccessHandlers[cah.$.AjaxOperation.REMOVE_CARDSET] = function(data) {
+cah.ajax.SuccessHandlers[cah.$.AjaxOperation.REMOVE_CARDSET] = function (data) {
     // pass
 };
 
-cah.ajax.SuccessHandlers[cah.$.AjaxOperation.LIST_CARDSETS] = function(data, req) {
+cah.ajax.SuccessHandlers[cah.$.AjaxOperation.LIST_CARDSETS] = function (data, req) {
     var gameId = req[cah.$.AjaxRequest.GAME_ID];
     var game = cah.currentGames[gameId];
     if (game) {
-    game.updateCustomDecks(data[cah.$.AjaxResponse.CARD_SETS]);
+        game.updateCustomDecks(data[cah.$.AjaxResponse.CARD_SETS]);
     }
 };
 

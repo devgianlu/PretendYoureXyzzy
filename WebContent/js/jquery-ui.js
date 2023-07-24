@@ -184,10 +184,10 @@
             return !!img && visible(img);
         }
         return (/input|select|textarea|button|object/.test(nodeName) ?
-            !element.disabled :
-            "a" === nodeName ?
-                element.href || isTabIndexNotNaN :
-                isTabIndexNotNaN) &&
+                !element.disabled :
+                "a" === nodeName ?
+                    element.href || isTabIndexNotNaN :
+                    isTabIndexNotNaN) &&
             // the element and all of its ancestors must be visible
             visible(element);
     }
@@ -1412,8 +1412,7 @@
                             this.containment[1] + co.top,
                             this.containment[2] + co.left,
                             this.containment[3] + co.top];
-                    }
-                    else {
+                    } else {
                         containment = this.containment;
                     }
 
@@ -1971,36 +1970,36 @@
             t = droppable.offset.top, b = t + droppable.proportions.height;
 
         switch (toleranceMode) {
-            case 'fit':
-                return (l <= x1 && x2 <= r
-                    && t <= y1 && y2 <= b);
-                break;
-            case 'intersect':
-                return (l < x1 + (draggable.helperProportions.width / 2) // Right Half
-                    && x2 - (draggable.helperProportions.width / 2) < r // Left Half
-                    && t < y1 + (draggable.helperProportions.height / 2) // Bottom Half
-                    && y2 - (draggable.helperProportions.height / 2) < b); // Top Half
-                break;
-            case 'pointer':
-                var draggableLeft = ((draggable.positionAbs || draggable.position.absolute).left + (draggable.clickOffset || draggable.offset.click).left),
-                    draggableTop = ((draggable.positionAbs || draggable.position.absolute).top + (draggable.clickOffset || draggable.offset.click).top),
-                    isOver = $.ui.isOver(draggableTop, draggableLeft, t, l, droppable.proportions.height, droppable.proportions.width);
-                return isOver;
-                break;
-            case 'touch':
-                return (
-                    (y1 >= t && y1 <= b) ||	// Top edge touching
-                    (y2 >= t && y2 <= b) ||	// Bottom edge touching
-                    (y1 < t && y2 > b)		// Surrounded vertically
-                ) && (
-                    (x1 >= l && x1 <= r) ||	// Left edge touching
-                    (x2 >= l && x2 <= r) ||	// Right edge touching
-                    (x1 < l && x2 > r)		// Surrounded horizontally
-                );
-                break;
-            default:
-                return false;
-                break;
+        case 'fit':
+            return (l <= x1 && x2 <= r
+                && t <= y1 && y2 <= b);
+            break;
+        case 'intersect':
+            return (l < x1 + (draggable.helperProportions.width / 2) // Right Half
+                && x2 - (draggable.helperProportions.width / 2) < r // Left Half
+                && t < y1 + (draggable.helperProportions.height / 2) // Bottom Half
+                && y2 - (draggable.helperProportions.height / 2) < b); // Top Half
+            break;
+        case 'pointer':
+            var draggableLeft = ((draggable.positionAbs || draggable.position.absolute).left + (draggable.clickOffset || draggable.offset.click).left),
+                draggableTop = ((draggable.positionAbs || draggable.position.absolute).top + (draggable.clickOffset || draggable.offset.click).top),
+                isOver = $.ui.isOver(draggableTop, draggableLeft, t, l, droppable.proportions.height, droppable.proportions.width);
+            return isOver;
+            break;
+        case 'touch':
+            return (
+                (y1 >= t && y1 <= b) ||	// Top edge touching
+                (y2 >= t && y2 <= b) ||	// Bottom edge touching
+                (y1 < t && y2 > b)		// Surrounded vertically
+            ) && (
+                (x1 >= l && x1 <= r) ||	// Left edge touching
+                (x2 >= l && x2 <= r) ||	// Right edge touching
+                (x1 < l && x2 > r)		// Surrounded horizontally
+            );
+            break;
+        default:
+            return false;
+            break;
         }
 
     };
@@ -2026,7 +2025,7 @@
                         continue droppablesLoop;
                     }
                 }
-                 //Filter out elements in the current dragged item
+                //Filter out elements in the current dragged item
                 m[i].visible = m[i].element.css("display") != "none";
                 if (!m[i].visible) continue; 									//If the element is not visible, continue
 
@@ -2273,7 +2272,7 @@
                     //  if (!$(this.handles[i]).length)
 
 
-                        }
+                }
             };
 
             //TODO: make renderAxis a prototype function
@@ -2689,12 +2688,11 @@
                 });
             };
 
-            if (typeof(o.alsoResize) == 'object' && !o.alsoResize.parentNode) {
+            if (typeof (o.alsoResize) == 'object' && !o.alsoResize.parentNode) {
                 if (o.alsoResize.length) {
                     o.alsoResize = o.alsoResize[0];
                     _store(o.alsoResize);
-                }
-                else {
+                } else {
                     $.each(o.alsoResize, function (exp) {
                         _store(exp);
                     });
@@ -2727,7 +2725,7 @@
                     });
                 };
 
-            if (typeof(o.alsoResize) == 'object' && !o.alsoResize.nodeType) {
+            if (typeof (o.alsoResize) == 'object' && !o.alsoResize.nodeType) {
                 $.each(o.alsoResize, function (exp, c) {
                     _alsoResize(exp, c);
                 });
@@ -2926,18 +2924,15 @@
             if (/^(se|s|e)$/.test(a)) {
                 that.size.width = os.width + ox;
                 that.size.height = os.height + oy;
-            }
-            else if (/^(ne)$/.test(a)) {
+            } else if (/^(ne)$/.test(a)) {
                 that.size.width = os.width + ox;
                 that.size.height = os.height + oy;
                 that.position.top = op.top - oy;
-            }
-            else if (/^(sw)$/.test(a)) {
+            } else if (/^(sw)$/.test(a)) {
                 that.size.width = os.width + ox;
                 that.size.height = os.height + oy;
                 that.position.left = op.left - ox;
-            }
-            else {
+            } else {
                 that.size.width = os.width + ox;
                 that.size.height = os.height + oy;
                 that.position.top = op.top - oy;
@@ -3512,7 +3507,7 @@
                     && this.placeholder[intersection == 1 ? "next" : "prev"]()[0] != itemElement //no useless actions that have been done before
                     && !$.contains(this.placeholder[0], itemElement) //no action if the item moved is the parent of the item checked
                     && (this.options.type == 'semi-dynamic' ? !$.contains(this.element[0], itemElement) : true)
-                //&& itemElement.parentNode == this.placeholder[0].parentNode // only rearrange items within the same container
+                    //&& itemElement.parentNode == this.placeholder[0].parentNode // only rearrange items within the same container
                 ) {
 
                     this.direction = intersection == 1 ? "down" : "up";
@@ -4285,7 +4280,7 @@
                     for (var i = 0; i < delayedTriggers.length; i++) {
                         delayedTriggers[i].call(this, event);
                     }
-                     //Trigger all delayed events
+                    //Trigger all delayed events
                     this._trigger("stop", event, this._uiHash());
                 }
 
@@ -4305,7 +4300,7 @@
                 for (var i = 0; i < delayedTriggers.length; i++) {
                     delayedTriggers[i].call(this, event);
                 }
-                 //Trigger all delayed events
+                //Trigger all delayed events
                 this._trigger("stop", event, this._uiHash());
             }
 
@@ -5033,8 +5028,8 @@
 
         function getElementStyles() {
             var style = this.ownerDocument.defaultView ?
-                this.ownerDocument.defaultView.getComputedStyle(this, null) :
-                this.currentStyle,
+                    this.ownerDocument.defaultView.getComputedStyle(this, null) :
+                    this.currentStyle,
                 newStyle = {},
                 key,
                 camelCase,
@@ -5248,30 +5243,30 @@
             getBaseline: function (origin, original) {
                 var y, x;
                 switch (origin[0]) {
-                    case "top":
-                        y = 0;
-                        break;
-                    case "middle":
-                        y = 0.5;
-                        break;
-                    case "bottom":
-                        y = 1;
-                        break;
-                    default:
-                        y = origin[0] / original.height;
+                case "top":
+                    y = 0;
+                    break;
+                case "middle":
+                    y = 0.5;
+                    break;
+                case "bottom":
+                    y = 1;
+                    break;
+                default:
+                    y = origin[0] / original.height;
                 }
                 switch (origin[1]) {
-                    case "left":
-                        x = 0;
-                        break;
-                    case "center":
-                        x = 0.5;
-                        break;
-                    case "right":
-                        x = 1;
-                        break;
-                    default:
-                        x = origin[1] / original.width;
+                case "left":
+                    x = 0;
+                    break;
+                case "center":
+                    x = 0.5;
+                    break;
+                case "right":
+                    x = 1;
+                    break;
+                default:
+                    x = origin[1] / original.width;
                 }
                 return {
                     x: x,
@@ -5652,7 +5647,7 @@
 
         _create: function () {
             var accordionId = this.accordionId = "ui-accordion-" +
-                (this.element.attr("id") || ++uid),
+                    (this.element.attr("id") || ++uid),
                 options = this.options;
 
             this.prevShow = this.prevHide = $();
@@ -5858,24 +5853,24 @@
                 toFocus = false;
 
             switch (event.keyCode) {
-                case keyCode.RIGHT:
-                case keyCode.DOWN:
-                    toFocus = this.headers[(currentIndex + 1) % length];
-                    break;
-                case keyCode.LEFT:
-                case keyCode.UP:
-                    toFocus = this.headers[(currentIndex - 1 + length) % length];
-                    break;
-                case keyCode.SPACE:
-                case keyCode.ENTER:
-                    this._eventHandler(event);
-                    break;
-                case keyCode.HOME:
-                    toFocus = this.headers[0];
-                    break;
-                case keyCode.END:
-                    toFocus = this.headers[length - 1];
-                    break;
+            case keyCode.RIGHT:
+            case keyCode.DOWN:
+                toFocus = this.headers[(currentIndex + 1) % length];
+                break;
+            case keyCode.LEFT:
+            case keyCode.UP:
+                toFocus = this.headers[(currentIndex - 1 + length) % length];
+                break;
+            case keyCode.SPACE:
+            case keyCode.ENTER:
+                this._eventHandler(event);
+                break;
+            case keyCode.HOME:
+                toFocus = this.headers[0];
+                break;
+            case keyCode.END:
+                toFocus = this.headers[length - 1];
+                break;
             }
 
             if (toFocus) {
@@ -6408,53 +6403,53 @@
                     suppressKeyPressRepeat = false;
                     var keyCode = $.ui.keyCode;
                     switch (event.keyCode) {
-                        case keyCode.PAGE_UP:
+                    case keyCode.PAGE_UP:
+                        suppressKeyPress = true;
+                        this._move("previousPage", event);
+                        break;
+                    case keyCode.PAGE_DOWN:
+                        suppressKeyPress = true;
+                        this._move("nextPage", event);
+                        break;
+                    case keyCode.UP:
+                        suppressKeyPress = true;
+                        this._keyEvent("previous", event);
+                        break;
+                    case keyCode.DOWN:
+                        suppressKeyPress = true;
+                        this._keyEvent("next", event);
+                        break;
+                    case keyCode.ENTER:
+                    case keyCode.NUMPAD_ENTER:
+                        // when menu is open and has focus
+                        if (this.menu.active) {
+                            // #6055 - Opera still allows the keypress to occur
+                            // which causes forms to submit
                             suppressKeyPress = true;
-                            this._move("previousPage", event);
-                            break;
-                        case keyCode.PAGE_DOWN:
-                            suppressKeyPress = true;
-                            this._move("nextPage", event);
-                            break;
-                        case keyCode.UP:
-                            suppressKeyPress = true;
-                            this._keyEvent("previous", event);
-                            break;
-                        case keyCode.DOWN:
-                            suppressKeyPress = true;
-                            this._keyEvent("next", event);
-                            break;
-                        case keyCode.ENTER:
-                        case keyCode.NUMPAD_ENTER:
-                            // when menu is open and has focus
-                            if (this.menu.active) {
-                                // #6055 - Opera still allows the keypress to occur
-                                // which causes forms to submit
-                                suppressKeyPress = true;
-                                event.preventDefault();
-                                this.menu.select(event);
-                            }
-                            break;
-                        case keyCode.TAB:
-                            if (this.menu.active) {
-                                this.menu.select(event);
-                            }
-                            break;
-                        case keyCode.ESCAPE:
-                            if (this.menu.element.is(":visible")) {
-                                this._value(this.term);
-                                this.close(event);
-                                // Different browsers have different default behavior for escape
-                                // Single press can mean undo or clear
-                                // Double press in IE means clear the whole form
-                                event.preventDefault();
-                            }
-                            break;
-                        default:
-                            suppressKeyPressRepeat = true;
-                            // search timeout should be triggered before the input value is changed
-                            this._searchTimeout(event);
-                            break;
+                            event.preventDefault();
+                            this.menu.select(event);
+                        }
+                        break;
+                    case keyCode.TAB:
+                        if (this.menu.active) {
+                            this.menu.select(event);
+                        }
+                        break;
+                    case keyCode.ESCAPE:
+                        if (this.menu.element.is(":visible")) {
+                            this._value(this.term);
+                            this.close(event);
+                            // Different browsers have different default behavior for escape
+                            // Single press can mean undo or clear
+                            // Double press in IE means clear the whole form
+                            event.preventDefault();
+                        }
+                        break;
+                    default:
+                        suppressKeyPressRepeat = true;
+                        // search timeout should be triggered before the input value is changed
+                        this._searchTimeout(event);
+                        break;
                     }
                 },
                 keypress: function (event) {
@@ -6470,18 +6465,18 @@
                     // replicate some key handlers to allow them to repeat in Firefox and Opera
                     var keyCode = $.ui.keyCode;
                     switch (event.keyCode) {
-                        case keyCode.PAGE_UP:
-                            this._move("previousPage", event);
-                            break;
-                        case keyCode.PAGE_DOWN:
-                            this._move("nextPage", event);
-                            break;
-                        case keyCode.UP:
-                            this._keyEvent("previous", event);
-                            break;
-                        case keyCode.DOWN:
-                            this._keyEvent("next", event);
-                            break;
+                    case keyCode.PAGE_UP:
+                        this._move("previousPage", event);
+                        break;
+                    case keyCode.PAGE_DOWN:
+                        this._move("nextPage", event);
+                        break;
+                    case keyCode.UP:
+                        this._keyEvent("previous", event);
+                        break;
+                    case keyCode.DOWN:
+                        this._keyEvent("next", event);
+                        break;
                     }
                 },
                 input: function (event) {
@@ -7696,8 +7691,7 @@
                 inst.trigger.filter('button').each(function () {
                     this.disabled = false;
                 }).end().filter('img').css({opacity: '1.0', cursor: ''});
-            }
-            else if (nodeName == 'div' || nodeName == 'span') {
+            } else if (nodeName == 'div' || nodeName == 'span') {
                 var inline = $target.children('.' + this._inlineClass);
                 inline.children().removeClass('ui-state-disabled');
                 inline.find("select.ui-datepicker-month, select.ui-datepicker-year").prop("disabled", false);
@@ -7722,8 +7716,7 @@
                 inst.trigger.filter('button').each(function () {
                     this.disabled = true;
                 }).end().filter('img').css({opacity: '0.5', cursor: 'default'});
-            }
-            else if (nodeName == 'div' || nodeName == 'span') {
+            } else if (nodeName == 'div' || nodeName == 'span') {
                 var inline = $target.children('.' + this._inlineClass);
                 inline.children().addClass('ui-state-disabled');
                 inline.find("select.ui-datepicker-month, select.ui-datepicker-year").prop("disabled", true);
@@ -7756,8 +7749,7 @@
         _getInst: function (target) {
             try {
                 return $.data(target, PROP_NAME);
-            }
-            catch (err) {
+            } catch (err) {
                 throw 'Missing instance data for this datepicker';
             }
         },
@@ -7848,75 +7840,74 @@
             inst._keyEvent = true;
             if ($.datepicker._datepickerShowing)
                 switch (event.keyCode) {
-                    case 9:
-                        $.datepicker._hideDatepicker();
-                        handled = false;
-                        break; // hide on tab out
-                    case 13:
-                        var sel = $('td.' + $.datepicker._dayOverClass + ':not(.' +
-                            $.datepicker._currentClass + ')', inst.dpDiv);
-                        if (sel[0])
-                            $.datepicker._selectDay(event.target, inst.selectedMonth, inst.selectedYear, sel[0]);
-                        var onSelect = $.datepicker._get(inst, 'onSelect');
-                        if (onSelect) {
-                            var dateStr = $.datepicker._formatDate(inst);
+                case 9:
+                    $.datepicker._hideDatepicker();
+                    handled = false;
+                    break; // hide on tab out
+                case 13:
+                    var sel = $('td.' + $.datepicker._dayOverClass + ':not(.' +
+                        $.datepicker._currentClass + ')', inst.dpDiv);
+                    if (sel[0])
+                        $.datepicker._selectDay(event.target, inst.selectedMonth, inst.selectedYear, sel[0]);
+                    var onSelect = $.datepicker._get(inst, 'onSelect');
+                    if (onSelect) {
+                        var dateStr = $.datepicker._formatDate(inst);
 
-                            // trigger custom callback
-                            onSelect.apply((inst.input ? inst.input[0] : null), [dateStr, inst]);
-                        }
-                        else
-                            $.datepicker._hideDatepicker();
-                        return false; // don't submit the form
-                        break; // select the value on enter
-                    case 27:
+                        // trigger custom callback
+                        onSelect.apply((inst.input ? inst.input[0] : null), [dateStr, inst]);
+                    } else
                         $.datepicker._hideDatepicker();
-                        break; // hide on escape
-                    case 33:
-                        $.datepicker._adjustDate(event.target, (event.ctrlKey ?
-                            -$.datepicker._get(inst, 'stepBigMonths') :
-                            -$.datepicker._get(inst, 'stepMonths')), 'M');
-                        break; // previous month/year on page up/+ ctrl
-                    case 34:
-                        $.datepicker._adjustDate(event.target, (event.ctrlKey ?
-                            +$.datepicker._get(inst, 'stepBigMonths') :
-                            +$.datepicker._get(inst, 'stepMonths')), 'M');
-                        break; // next month/year on page down/+ ctrl
-                    case 35:
-                        if (event.ctrlKey || event.metaKey) $.datepicker._clearDate(event.target);
-                        handled = event.ctrlKey || event.metaKey;
-                        break; // clear on ctrl or command +end
-                    case 36:
-                        if (event.ctrlKey || event.metaKey) $.datepicker._gotoToday(event.target);
-                        handled = event.ctrlKey || event.metaKey;
-                        break; // current on ctrl or command +home
-                    case 37:
-                        if (event.ctrlKey || event.metaKey) $.datepicker._adjustDate(event.target, (isRTL ? +1 : -1), 'D');
-                        handled = event.ctrlKey || event.metaKey;
-                        // -1 day on ctrl or command +left
-                        if (event.originalEvent.altKey) $.datepicker._adjustDate(event.target, (event.ctrlKey ?
-                            -$.datepicker._get(inst, 'stepBigMonths') :
-                            -$.datepicker._get(inst, 'stepMonths')), 'M');
-                        // next month/year on alt +left on Mac
-                        break;
-                    case 38:
-                        if (event.ctrlKey || event.metaKey) $.datepicker._adjustDate(event.target, -7, 'D');
-                        handled = event.ctrlKey || event.metaKey;
-                        break; // -1 week on ctrl or command +up
-                    case 39:
-                        if (event.ctrlKey || event.metaKey) $.datepicker._adjustDate(event.target, (isRTL ? -1 : +1), 'D');
-                        handled = event.ctrlKey || event.metaKey;
-                        // +1 day on ctrl or command +right
-                        if (event.originalEvent.altKey) $.datepicker._adjustDate(event.target, (event.ctrlKey ?
-                            +$.datepicker._get(inst, 'stepBigMonths') :
-                            +$.datepicker._get(inst, 'stepMonths')), 'M');
-                        // next month/year on alt +right
-                        break;
-                    case 40:
-                        if (event.ctrlKey || event.metaKey) $.datepicker._adjustDate(event.target, +7, 'D');
-                        handled = event.ctrlKey || event.metaKey;
-                        break; // +1 week on ctrl or command +down
-                    default:
-                        handled = false;
+                    return false; // don't submit the form
+                    break; // select the value on enter
+                case 27:
+                    $.datepicker._hideDatepicker();
+                    break; // hide on escape
+                case 33:
+                    $.datepicker._adjustDate(event.target, (event.ctrlKey ?
+                        -$.datepicker._get(inst, 'stepBigMonths') :
+                        -$.datepicker._get(inst, 'stepMonths')), 'M');
+                    break; // previous month/year on page up/+ ctrl
+                case 34:
+                    $.datepicker._adjustDate(event.target, (event.ctrlKey ?
+                        +$.datepicker._get(inst, 'stepBigMonths') :
+                        +$.datepicker._get(inst, 'stepMonths')), 'M');
+                    break; // next month/year on page down/+ ctrl
+                case 35:
+                    if (event.ctrlKey || event.metaKey) $.datepicker._clearDate(event.target);
+                    handled = event.ctrlKey || event.metaKey;
+                    break; // clear on ctrl or command +end
+                case 36:
+                    if (event.ctrlKey || event.metaKey) $.datepicker._gotoToday(event.target);
+                    handled = event.ctrlKey || event.metaKey;
+                    break; // current on ctrl or command +home
+                case 37:
+                    if (event.ctrlKey || event.metaKey) $.datepicker._adjustDate(event.target, (isRTL ? +1 : -1), 'D');
+                    handled = event.ctrlKey || event.metaKey;
+                    // -1 day on ctrl or command +left
+                    if (event.originalEvent.altKey) $.datepicker._adjustDate(event.target, (event.ctrlKey ?
+                        -$.datepicker._get(inst, 'stepBigMonths') :
+                        -$.datepicker._get(inst, 'stepMonths')), 'M');
+                    // next month/year on alt +left on Mac
+                    break;
+                case 38:
+                    if (event.ctrlKey || event.metaKey) $.datepicker._adjustDate(event.target, -7, 'D');
+                    handled = event.ctrlKey || event.metaKey;
+                    break; // -1 week on ctrl or command +up
+                case 39:
+                    if (event.ctrlKey || event.metaKey) $.datepicker._adjustDate(event.target, (isRTL ? -1 : +1), 'D');
+                    handled = event.ctrlKey || event.metaKey;
+                    // +1 day on ctrl or command +right
+                    if (event.originalEvent.altKey) $.datepicker._adjustDate(event.target, (event.ctrlKey ?
+                        +$.datepicker._get(inst, 'stepBigMonths') :
+                        +$.datepicker._get(inst, 'stepMonths')), 'M');
+                    // next month/year on alt +right
+                    break;
+                case 40:
+                    if (event.ctrlKey || event.metaKey) $.datepicker._adjustDate(event.target, +7, 'D');
+                    handled = event.ctrlKey || event.metaKey;
+                    break; // +1 week on ctrl or command +down
+                default:
+                    handled = false;
                 }
             else if (event.keyCode == 36 && event.ctrlKey) // display the date picker on ctrl+home
                 $.datepicker._showDatepicker(this);
@@ -7952,8 +7943,7 @@
                         $.datepicker._updateAlternate(inst);
                         $.datepicker._updateDatepicker(inst);
                     }
-                }
-                catch (err) {
+                } catch (err) {
                     $.datepicker.log(err);
                 }
             }
@@ -8183,10 +8173,10 @@
                 inst = $.datepicker._getInst($target[0]);
 
             if ((($target[0].id != $.datepicker._mainDivId &&
-                $target.parents('#' + $.datepicker._mainDivId).length == 0 &&
-                !$target.hasClass($.datepicker.markerClassName) &&
-                !$target.closest("." + $.datepicker._triggerClass).length &&
-                $.datepicker._datepickerShowing && !($.datepicker._inDialog && $.blockUI))) ||
+                    $target.parents('#' + $.datepicker._mainDivId).length == 0 &&
+                    !$target.hasClass($.datepicker.markerClassName) &&
+                    !$target.closest("." + $.datepicker._triggerClass).length &&
+                    $.datepicker._datepickerShowing && !($.datepicker._inDialog && $.blockUI))) ||
                 ($target.hasClass($.datepicker.markerClassName) && $.datepicker._curInst != inst))
                 $.datepicker._hideDatepicker();
         },
@@ -8212,8 +8202,7 @@
                 inst.selectedDay = inst.currentDay;
                 inst.drawMonth = inst.selectedMonth = inst.currentMonth;
                 inst.drawYear = inst.selectedYear = inst.currentYear;
-            }
-            else {
+            } else {
                 var date = new Date();
                 inst.selectedDay = date.getDate();
                 inst.drawMonth = inst.selectedMonth = date.getMonth();
@@ -8273,7 +8262,7 @@
             else {
                 this._hideDatepicker();
                 this._lastInput = inst.input[0];
-                if (typeof(inst.input[0]) != 'object')
+                if (typeof (inst.input[0]) != 'object')
                     inst.input.focus(); // restore focus
                 this._lastInput = null;
             }
@@ -8398,44 +8387,44 @@
                         checkLiteral();
                 else
                     switch (format.charAt(iFormat)) {
-                        case 'd':
-                            day = getNumber('d');
-                            break;
-                        case 'D':
-                            getName('D', dayNamesShort, dayNames);
-                            break;
-                        case 'o':
-                            doy = getNumber('o');
-                            break;
-                        case 'm':
-                            month = getNumber('m');
-                            break;
-                        case 'M':
-                            month = getName('M', monthNamesShort, monthNames);
-                            break;
-                        case 'y':
-                            year = getNumber('y');
-                            break;
-                        case '@':
-                            var date = new Date(getNumber('@'));
-                            year = date.getFullYear();
-                            month = date.getMonth() + 1;
-                            day = date.getDate();
-                            break;
-                        case '!':
-                            var date = new Date((getNumber('!') - this._ticksTo1970) / 10000);
-                            year = date.getFullYear();
-                            month = date.getMonth() + 1;
-                            day = date.getDate();
-                            break;
-                        case "'":
-                            if (lookAhead("'"))
-                                checkLiteral();
-                            else
-                                literal = true;
-                            break;
-                        default:
+                    case 'd':
+                        day = getNumber('d');
+                        break;
+                    case 'D':
+                        getName('D', dayNamesShort, dayNames);
+                        break;
+                    case 'o':
+                        doy = getNumber('o');
+                        break;
+                    case 'm':
+                        month = getNumber('m');
+                        break;
+                    case 'M':
+                        month = getName('M', monthNamesShort, monthNames);
+                        break;
+                    case 'y':
+                        year = getNumber('y');
+                        break;
+                    case '@':
+                        var date = new Date(getNumber('@'));
+                        year = date.getFullYear();
+                        month = date.getMonth() + 1;
+                        day = date.getDate();
+                        break;
+                    case '!':
+                        var date = new Date((getNumber('!') - this._ticksTo1970) / 10000);
+                        year = date.getFullYear();
+                        month = date.getMonth() + 1;
+                        day = date.getDate();
+                        break;
+                    case "'":
+                        if (lookAhead("'"))
                             checkLiteral();
+                        else
+                            literal = true;
+                        break;
+                    default:
+                        checkLiteral();
                     }
             }
             if (iValue < value.length) {
@@ -8547,40 +8536,40 @@
                             output += format.charAt(iFormat);
                     else
                         switch (format.charAt(iFormat)) {
-                            case 'd':
-                                output += formatNumber('d', date.getDate(), 2);
-                                break;
-                            case 'D':
-                                output += formatName('D', date.getDay(), dayNamesShort, dayNames);
-                                break;
-                            case 'o':
-                                output += formatNumber('o',
-                                    Math.round((new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime() - new Date(date.getFullYear(), 0, 0).getTime()) / 86400000), 3);
-                                break;
-                            case 'm':
-                                output += formatNumber('m', date.getMonth() + 1, 2);
-                                break;
-                            case 'M':
-                                output += formatName('M', date.getMonth(), monthNamesShort, monthNames);
-                                break;
-                            case 'y':
-                                output += (lookAhead('y') ? date.getFullYear() :
-                                    (date.getYear() % 100 < 10 ? '0' : '') + date.getYear() % 100);
-                                break;
-                            case '@':
-                                output += date.getTime();
-                                break;
-                            case '!':
-                                output += date.getTime() * 10000 + this._ticksTo1970;
-                                break;
-                            case "'":
-                                if (lookAhead("'"))
-                                    output += "'";
-                                else
-                                    literal = true;
-                                break;
-                            default:
-                                output += format.charAt(iFormat);
+                        case 'd':
+                            output += formatNumber('d', date.getDate(), 2);
+                            break;
+                        case 'D':
+                            output += formatName('D', date.getDay(), dayNamesShort, dayNames);
+                            break;
+                        case 'o':
+                            output += formatNumber('o',
+                                Math.round((new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime() - new Date(date.getFullYear(), 0, 0).getTime()) / 86400000), 3);
+                            break;
+                        case 'm':
+                            output += formatNumber('m', date.getMonth() + 1, 2);
+                            break;
+                        case 'M':
+                            output += formatName('M', date.getMonth(), monthNamesShort, monthNames);
+                            break;
+                        case 'y':
+                            output += (lookAhead('y') ? date.getFullYear() :
+                                (date.getYear() % 100 < 10 ? '0' : '') + date.getYear() % 100);
+                            break;
+                        case '@':
+                            output += date.getTime();
+                            break;
+                        case '!':
+                            output += date.getTime() * 10000 + this._ticksTo1970;
+                            break;
+                        case "'":
+                            if (lookAhead("'"))
+                                output += "'";
+                            else
+                                literal = true;
+                            break;
+                        default:
+                            output += format.charAt(iFormat);
                         }
                 }
             return output;
@@ -8605,23 +8594,23 @@
                         chars += format.charAt(iFormat);
                 else
                     switch (format.charAt(iFormat)) {
-                        case 'd':
-                        case 'm':
-                        case 'y':
-                        case '@':
-                            chars += '0123456789';
-                            break;
-                        case 'D':
-                        case 'M':
-                            return null; // Accept anything
-                        case "'":
-                            if (lookAhead("'"))
-                                chars += "'";
-                            else
-                                literal = true;
-                            break;
-                        default:
-                            chars += format.charAt(iFormat);
+                    case 'd':
+                    case 'm':
+                    case 'y':
+                    case '@':
+                        chars += '0123456789';
+                        break;
+                    case 'D':
+                    case 'M':
+                        return null; // Accept anything
+                    case "'":
+                        if (lookAhead("'"))
+                            chars += "'";
+                        else
+                            literal = true;
+                        break;
+                    default:
+                        chars += format.charAt(iFormat);
                     }
             return chars;
         },
@@ -8674,8 +8663,7 @@
                 try {
                     return $.datepicker.parseDate($.datepicker._get(inst, 'dateFormat'),
                         offset, $.datepicker._getFormatConfig(inst));
-                }
-                catch (e) {
+                } catch (e) {
                     // Ignore
                 }
                 var date = (offset.toLowerCase().match(/^c/) ?
@@ -8687,24 +8675,24 @@
                 var matches = pattern.exec(offset);
                 while (matches) {
                     switch (matches[2] || 'd') {
-                        case 'd' :
-                        case 'D' :
-                            day += parseInt(matches[1], 10);
-                            break;
-                        case 'w' :
-                        case 'W' :
-                            day += parseInt(matches[1], 10) * 7;
-                            break;
-                        case 'm' :
-                        case 'M' :
-                            month += parseInt(matches[1], 10);
-                            day = Math.min(day, $.datepicker._getDaysInMonth(year, month));
-                            break;
-                        case 'y':
-                        case 'Y' :
-                            year += parseInt(matches[1], 10);
-                            day = Math.min(day, $.datepicker._getDaysInMonth(year, month));
-                            break;
+                    case 'd' :
+                    case 'D' :
+                        day += parseInt(matches[1], 10);
+                        break;
+                    case 'w' :
+                    case 'W' :
+                        day += parseInt(matches[1], 10) * 7;
+                        break;
+                    case 'm' :
+                    case 'M' :
+                        month += parseInt(matches[1], 10);
+                        day = Math.min(day, $.datepicker._getDaysInMonth(year, month));
+                        break;
+                    case 'y':
+                    case 'Y' :
+                        year += parseInt(matches[1], 10);
+                        day = Math.min(day, $.datepicker._getDaysInMonth(year, month));
+                        break;
                     }
                     matches = pattern.exec(offset);
                 }
@@ -8883,18 +8871,18 @@
                         calender += '<div class="ui-datepicker-group';
                         if (numMonths[1] > 1)
                             switch (col) {
-                                case 0:
-                                    calender += ' ui-datepicker-group-first';
-                                    cornerClass = ' ui-corner-' + (isRTL ? 'right' : 'left');
-                                    break;
-                                case numMonths[1] - 1:
-                                    calender += ' ui-datepicker-group-last';
-                                    cornerClass = ' ui-corner-' + (isRTL ? 'left' : 'right');
-                                    break;
-                                default:
-                                    calender += ' ui-datepicker-group-middle';
-                                    cornerClass = '';
-                                    break;
+                            case 0:
+                                calender += ' ui-datepicker-group-first';
+                                cornerClass = ' ui-corner-' + (isRTL ? 'right' : 'left');
+                                break;
+                            case numMonths[1] - 1:
+                                calender += ' ui-datepicker-group-last';
+                                cornerClass = ' ui-corner-' + (isRTL ? 'left' : 'right');
+                                break;
+                            default:
+                                calender += ' ui-datepicker-group-middle';
+                                cornerClass = '';
+                                break;
                             }
                         calender += '">';
                     }
@@ -9126,7 +9114,7 @@
                 inst.currentYear = inst.selectedYear;
             }
             var date = (day ? (typeof day == 'object' ? day :
-                this._daylightSavingAdjust(new Date(year, month, day))) :
+                    this._daylightSavingAdjust(new Date(year, month, day))) :
                 this._daylightSavingAdjust(new Date(inst.currentYear, inst.currentMonth, inst.currentDay)));
             return this.formatDate(this._get(inst, 'dateFormat'), date, this._getFormatConfig(inst));
         }
@@ -9740,60 +9728,60 @@
                 uiDialog = this.uiDialog;
 
             switch (key) {
-                case "buttons":
-                    this._createButtons(value);
-                    break;
-                case "closeText":
-                    // ensure that we always pass a string
-                    this.uiDialogTitlebarCloseText.text("" + value);
-                    break;
-                case "dialogClass":
-                    uiDialog
-                        .removeClass(this.options.dialogClass)
-                        .addClass(uiDialogClasses + value);
-                    break;
-                case "disabled":
-                    if (value) {
-                        uiDialog.addClass("ui-dialog-disabled");
-                    } else {
-                        uiDialog.removeClass("ui-dialog-disabled");
-                    }
-                    break;
-                case "draggable":
-                    isDraggable = uiDialog.is(":data(draggable)");
-                    if (isDraggable && !value) {
-                        uiDialog.draggable("destroy");
-                    }
+            case "buttons":
+                this._createButtons(value);
+                break;
+            case "closeText":
+                // ensure that we always pass a string
+                this.uiDialogTitlebarCloseText.text("" + value);
+                break;
+            case "dialogClass":
+                uiDialog
+                    .removeClass(this.options.dialogClass)
+                    .addClass(uiDialogClasses + value);
+                break;
+            case "disabled":
+                if (value) {
+                    uiDialog.addClass("ui-dialog-disabled");
+                } else {
+                    uiDialog.removeClass("ui-dialog-disabled");
+                }
+                break;
+            case "draggable":
+                isDraggable = uiDialog.is(":data(draggable)");
+                if (isDraggable && !value) {
+                    uiDialog.draggable("destroy");
+                }
 
-                    if (!isDraggable && value) {
-                        this._makeDraggable();
-                    }
-                    break;
-                case "position":
-                    this._position(value);
-                    break;
-                case "resizable":
-                    // currently resizable, becoming non-resizable
-                    isResizable = uiDialog.is(":data(resizable)");
-                    if (isResizable && !value) {
-                        uiDialog.resizable("destroy");
-                    }
+                if (!isDraggable && value) {
+                    this._makeDraggable();
+                }
+                break;
+            case "position":
+                this._position(value);
+                break;
+            case "resizable":
+                // currently resizable, becoming non-resizable
+                isResizable = uiDialog.is(":data(resizable)");
+                if (isResizable && !value) {
+                    uiDialog.resizable("destroy");
+                }
 
-                    // currently resizable, changing handles
-                    if (isResizable && typeof value === "string") {
-                        uiDialog.resizable("option", "handles", value);
-                    }
+                // currently resizable, changing handles
+                if (isResizable && typeof value === "string") {
+                    uiDialog.resizable("option", "handles", value);
+                }
 
-                    // currently non-resizable, becoming resizable
-                    if (!isResizable && value !== false) {
-                        this._makeResizable(value);
-                    }
-                    break;
-                case "title":
-                    // convert whatever was passed in o a string, for html() to not throw up
-                    $(".ui-dialog-title", this.uiDialogTitlebar)
-                        .html("" + (value || "&#160;"));
-                    break;
+                // currently non-resizable, becoming resizable
+                if (!isResizable && value !== false) {
+                    this._makeResizable(value);
+                }
+                break;
+            case "title":
+                // convert whatever was passed in o a string, for html() to not throw up
+                $(".ui-dialog-title", this.uiDialogTitlebar)
+                    .html("" + (value || "&#160;"));
+                break;
             }
 
             this._super(key, value);
@@ -10291,8 +10279,8 @@
 
         // Animation
         animation[ref] = (show ?
-            (motion === "pos" ? "+=" : "-=") :
-            (motion === "pos" ? "-=" : "+=")) +
+                (motion === "pos" ? "+=" : "-=") :
+                (motion === "pos" ? "-=" : "+=")) +
             distance;
 
         // Animate
@@ -10940,8 +10928,8 @@
 
         // Animation
         animation[ref] = (show ?
-            (positiveMotion ? "+=" : "-=") :
-            (positiveMotion ? "-=" : "+=")) +
+                (positiveMotion ? "+=" : "-=") :
+                (positiveMotion ? "-=" : "+=")) +
             distance;
 
         // Animate
@@ -11165,84 +11153,84 @@
             }
 
             switch (event.keyCode) {
-                case $.ui.keyCode.PAGE_UP:
-                    this.previousPage(event);
-                    break;
-                case $.ui.keyCode.PAGE_DOWN:
-                    this.nextPage(event);
-                    break;
-                case $.ui.keyCode.HOME:
-                    this._move("first", "first", event);
-                    break;
-                case $.ui.keyCode.END:
-                    this._move("last", "last", event);
-                    break;
-                case $.ui.keyCode.UP:
-                    this.previous(event);
-                    break;
-                case $.ui.keyCode.DOWN:
-                    this.next(event);
-                    break;
-                case $.ui.keyCode.LEFT:
-                    this.collapse(event);
-                    break;
-                case $.ui.keyCode.RIGHT:
-                    if (this.active && !this.active.is(".ui-state-disabled")) {
-                        this.expand(event);
-                    }
-                    break;
-                case $.ui.keyCode.ENTER:
-                case $.ui.keyCode.SPACE:
-                    this._activate(event);
-                    break;
-                case $.ui.keyCode.ESCAPE:
-                    this.collapse(event);
-                    break;
-                default:
-                    preventDefault = false;
-                    prev = this.previousFilter || "";
+            case $.ui.keyCode.PAGE_UP:
+                this.previousPage(event);
+                break;
+            case $.ui.keyCode.PAGE_DOWN:
+                this.nextPage(event);
+                break;
+            case $.ui.keyCode.HOME:
+                this._move("first", "first", event);
+                break;
+            case $.ui.keyCode.END:
+                this._move("last", "last", event);
+                break;
+            case $.ui.keyCode.UP:
+                this.previous(event);
+                break;
+            case $.ui.keyCode.DOWN:
+                this.next(event);
+                break;
+            case $.ui.keyCode.LEFT:
+                this.collapse(event);
+                break;
+            case $.ui.keyCode.RIGHT:
+                if (this.active && !this.active.is(".ui-state-disabled")) {
+                    this.expand(event);
+                }
+                break;
+            case $.ui.keyCode.ENTER:
+            case $.ui.keyCode.SPACE:
+                this._activate(event);
+                break;
+            case $.ui.keyCode.ESCAPE:
+                this.collapse(event);
+                break;
+            default:
+                preventDefault = false;
+                prev = this.previousFilter || "";
+                character = String.fromCharCode(event.keyCode);
+                skip = false;
+
+                clearTimeout(this.filterTimer);
+
+                if (character === prev) {
+                    skip = true;
+                } else {
+                    character = prev + character;
+                }
+
+                regex = new RegExp("^" + escape(character), "i");
+                match = this.activeMenu.children(".ui-menu-item").filter(function () {
+                    return regex.test($(this).children("a").text());
+                });
+                match = skip && match.index(this.active.next()) !== -1 ?
+                    this.active.nextAll(".ui-menu-item") :
+                    match;
+
+                // If no matches on the current filter, reset to the last character pressed
+                // to move down the menu to the first item that starts with that character
+                if (!match.length) {
                     character = String.fromCharCode(event.keyCode);
-                    skip = false;
-
-                    clearTimeout(this.filterTimer);
-
-                    if (character === prev) {
-                        skip = true;
-                    } else {
-                        character = prev + character;
-                    }
-
                     regex = new RegExp("^" + escape(character), "i");
                     match = this.activeMenu.children(".ui-menu-item").filter(function () {
                         return regex.test($(this).children("a").text());
                     });
-                    match = skip && match.index(this.active.next()) !== -1 ?
-                        this.active.nextAll(".ui-menu-item") :
-                        match;
+                }
 
-                    // If no matches on the current filter, reset to the last character pressed
-                    // to move down the menu to the first item that starts with that character
-                    if (!match.length) {
-                        character = String.fromCharCode(event.keyCode);
-                        regex = new RegExp("^" + escape(character), "i");
-                        match = this.activeMenu.children(".ui-menu-item").filter(function () {
-                            return regex.test($(this).children("a").text());
-                        });
-                    }
-
-                    if (match.length) {
-                        this.focus(event, match);
-                        if (match.length > 1) {
-                            this.previousFilter = character;
-                            this.filterTimer = this._delay(function () {
-                                delete this.previousFilter;
-                            }, 1000);
-                        } else {
+                if (match.length) {
+                    this.focus(event, match);
+                    if (match.length > 1) {
+                        this.previousFilter = character;
+                        this.filterTimer = this._delay(function () {
                             delete this.previousFilter;
-                        }
+                        }, 1000);
                     } else {
                         delete this.previousFilter;
                     }
+                } else {
+                    delete this.previousFilter;
+                }
             }
 
             if (preventDefault) {
@@ -11968,8 +11956,7 @@
                     if (newOverRight < 0 || newOverRight < abs(overLeft)) {
                         position.left += myOffset + atOffset + offset;
                     }
-                }
-                else if (overRight > 0) {
+                } else if (overRight > 0) {
                     newOverLeft = position.left - data.collisionPosition.marginLeft + myOffset + atOffset + offset - offsetLeft;
                     if (newOverLeft > 0 || abs(newOverLeft) < overRight) {
                         position.left += myOffset + atOffset + offset;
@@ -12003,8 +11990,7 @@
                     if ((position.top + myOffset + atOffset + offset) > overTop && (newOverBottom < 0 || newOverBottom < abs(overTop))) {
                         position.top += myOffset + atOffset + offset;
                     }
-                }
-                else if (overBottom > 0) {
+                } else if (overBottom > 0) {
                     newOverTop = position.top - data.collisionPosition.marginTop + myOffset + atOffset + offset - offsetTop;
                     if ((position.top + myOffset + atOffset + offset) > overBottom && (newOverTop > 0 || abs(newOverTop) < overBottom)) {
                         position.top += myOffset + atOffset + offset;
@@ -12301,24 +12287,24 @@
                         index = $(event.target).data("ui-slider-handle-index");
 
                     switch (event.keyCode) {
-                        case $.ui.keyCode.HOME:
-                        case $.ui.keyCode.END:
-                        case $.ui.keyCode.PAGE_UP:
-                        case $.ui.keyCode.PAGE_DOWN:
-                        case $.ui.keyCode.UP:
-                        case $.ui.keyCode.RIGHT:
-                        case $.ui.keyCode.DOWN:
-                        case $.ui.keyCode.LEFT:
-                            event.preventDefault();
-                            if (!this._keySliding) {
-                                this._keySliding = true;
-                                $(event.target).addClass("ui-state-active");
-                                allowed = this._start(event, index);
-                                if (allowed === false) {
-                                    return;
-                                }
+                    case $.ui.keyCode.HOME:
+                    case $.ui.keyCode.END:
+                    case $.ui.keyCode.PAGE_UP:
+                    case $.ui.keyCode.PAGE_DOWN:
+                    case $.ui.keyCode.UP:
+                    case $.ui.keyCode.RIGHT:
+                    case $.ui.keyCode.DOWN:
+                    case $.ui.keyCode.LEFT:
+                        event.preventDefault();
+                        if (!this._keySliding) {
+                            this._keySliding = true;
+                            $(event.target).addClass("ui-state-active");
+                            allowed = this._start(event, index);
+                            if (allowed === false) {
+                                return;
                             }
-                            break;
+                        }
+                        break;
                     }
 
                     step = this.options.step;
@@ -12329,32 +12315,32 @@
                     }
 
                     switch (event.keyCode) {
-                        case $.ui.keyCode.HOME:
-                            newVal = this._valueMin();
-                            break;
-                        case $.ui.keyCode.END:
-                            newVal = this._valueMax();
-                            break;
-                        case $.ui.keyCode.PAGE_UP:
-                            newVal = this._trimAlignValue(curVal + ((this._valueMax() - this._valueMin()) / numPages));
-                            break;
-                        case $.ui.keyCode.PAGE_DOWN:
-                            newVal = this._trimAlignValue(curVal - ((this._valueMax() - this._valueMin()) / numPages));
-                            break;
-                        case $.ui.keyCode.UP:
-                        case $.ui.keyCode.RIGHT:
-                            if (curVal === this._valueMax()) {
-                                return;
-                            }
-                            newVal = this._trimAlignValue(curVal + step);
-                            break;
-                        case $.ui.keyCode.DOWN:
-                        case $.ui.keyCode.LEFT:
-                            if (curVal === this._valueMin()) {
-                                return;
-                            }
-                            newVal = this._trimAlignValue(curVal - step);
-                            break;
+                    case $.ui.keyCode.HOME:
+                        newVal = this._valueMin();
+                        break;
+                    case $.ui.keyCode.END:
+                        newVal = this._valueMax();
+                        break;
+                    case $.ui.keyCode.PAGE_UP:
+                        newVal = this._trimAlignValue(curVal + ((this._valueMax() - this._valueMin()) / numPages));
+                        break;
+                    case $.ui.keyCode.PAGE_DOWN:
+                        newVal = this._trimAlignValue(curVal - ((this._valueMax() - this._valueMin()) / numPages));
+                        break;
+                    case $.ui.keyCode.UP:
+                    case $.ui.keyCode.RIGHT:
+                        if (curVal === this._valueMax()) {
+                            return;
+                        }
+                        newVal = this._trimAlignValue(curVal + step);
+                        break;
+                    case $.ui.keyCode.DOWN:
+                    case $.ui.keyCode.LEFT:
+                        if (curVal === this._valueMin()) {
+                            return;
+                        }
+                        newVal = this._trimAlignValue(curVal - step);
+                        break;
                     }
 
                     this._slide(event, index, newVal);
@@ -12444,10 +12430,10 @@
             this._clickOffset = mouseOverHandle ? {left: 0, top: 0} : {
                 left: event.pageX - offset.left - (closestHandle.width() / 2),
                 top: event.pageY - offset.top -
-                (closestHandle.height() / 2) -
-                (parseInt(closestHandle.css("borderTopWidth"), 10) || 0) -
-                (parseInt(closestHandle.css("borderBottomWidth"), 10) || 0) +
-                (parseInt(closestHandle.css("marginTop"), 10) || 0)
+                    (closestHandle.height() / 2) -
+                    (parseInt(closestHandle.css("borderTopWidth"), 10) || 0) -
+                    (parseInt(closestHandle.css("borderBottomWidth"), 10) || 0) +
+                    (parseInt(closestHandle.css("marginTop"), 10) || 0)
             };
 
             if (!this.handles.hasClass("ui-state-hover")) {
@@ -12657,38 +12643,38 @@
             $.Widget.prototype._setOption.apply(this, arguments);
 
             switch (key) {
-                case "disabled":
-                    if (value) {
-                        this.handles.filter(".ui-state-focus").blur();
-                        this.handles.removeClass("ui-state-hover");
-                        this.handles.prop("disabled", true);
-                        this.element.addClass("ui-disabled");
-                    } else {
-                        this.handles.prop("disabled", false);
-                        this.element.removeClass("ui-disabled");
-                    }
-                    break;
-                case "orientation":
-                    this._detectOrientation();
-                    this.element
-                        .removeClass("ui-slider-horizontal ui-slider-vertical")
-                        .addClass("ui-slider-" + this.orientation);
-                    this._refreshValue();
-                    break;
-                case "value":
-                    this._animateOff = true;
-                    this._refreshValue();
-                    this._change(null, 0);
-                    this._animateOff = false;
-                    break;
-                case "values":
-                    this._animateOff = true;
-                    this._refreshValue();
-                    for (i = 0; i < valsLength; i += 1) {
-                        this._change(null, i);
-                    }
-                    this._animateOff = false;
-                    break;
+            case "disabled":
+                if (value) {
+                    this.handles.filter(".ui-state-focus").blur();
+                    this.handles.removeClass("ui-state-hover");
+                    this.handles.prop("disabled", true);
+                    this.element.addClass("ui-disabled");
+                } else {
+                    this.handles.prop("disabled", false);
+                    this.element.removeClass("ui-disabled");
+                }
+                break;
+            case "orientation":
+                this._detectOrientation();
+                this.element
+                    .removeClass("ui-slider-horizontal ui-slider-vertical")
+                    .addClass("ui-slider-" + this.orientation);
+                this._refreshValue();
+                break;
+            case "value":
+                this._animateOff = true;
+                this._refreshValue();
+                this._change(null, 0);
+                this._animateOff = false;
+                break;
+            case "values":
+                this._animateOff = true;
+                this._refreshValue();
+                for (i = 0; i < valsLength; i += 1) {
+                    this._change(null, i);
+                }
+                this._animateOff = false;
+                break;
             }
         },
 
@@ -13040,18 +13026,18 @@
                 keyCode = $.ui.keyCode;
 
             switch (event.keyCode) {
-                case keyCode.UP:
-                    this._repeat(null, 1, event);
-                    return true;
-                case keyCode.DOWN:
-                    this._repeat(null, -1, event);
-                    return true;
-                case keyCode.PAGE_UP:
-                    this._repeat(null, options.page, event);
-                    return true;
-                case keyCode.PAGE_DOWN:
-                    this._repeat(null, -options.page, event);
-                    return true;
+            case keyCode.UP:
+                this._repeat(null, 1, event);
+                return true;
+            case keyCode.DOWN:
+                this._repeat(null, -1, event);
+                return true;
+            case keyCode.PAGE_UP:
+                this._repeat(null, options.page, event);
+                return true;
+            case keyCode.PAGE_DOWN:
+                this._repeat(null, -options.page, event);
+                return true;
             }
 
             return false;
@@ -13439,36 +13425,36 @@
             }
 
             switch (event.keyCode) {
-                case $.ui.keyCode.RIGHT:
-                case $.ui.keyCode.DOWN:
-                    selectedIndex++;
-                    break;
-                case $.ui.keyCode.UP:
-                case $.ui.keyCode.LEFT:
-                    goingForward = false;
-                    selectedIndex--;
-                    break;
-                case $.ui.keyCode.END:
-                    selectedIndex = this.anchors.length - 1;
-                    break;
-                case $.ui.keyCode.HOME:
-                    selectedIndex = 0;
-                    break;
-                case $.ui.keyCode.SPACE:
-                    // Activate only, no collapsing
-                    event.preventDefault();
-                    clearTimeout(this.activating);
-                    this._activate(selectedIndex);
-                    return;
-                case $.ui.keyCode.ENTER:
-                    // Toggle (cancel delayed activation, allow collapsing)
-                    event.preventDefault();
-                    clearTimeout(this.activating);
-                    // Determine if we should collapse or activate
-                    this._activate(selectedIndex === this.options.active ? false : selectedIndex);
-                    return;
-                default:
-                    return;
+            case $.ui.keyCode.RIGHT:
+            case $.ui.keyCode.DOWN:
+                selectedIndex++;
+                break;
+            case $.ui.keyCode.UP:
+            case $.ui.keyCode.LEFT:
+                goingForward = false;
+                selectedIndex--;
+                break;
+            case $.ui.keyCode.END:
+                selectedIndex = this.anchors.length - 1;
+                break;
+            case $.ui.keyCode.HOME:
+                selectedIndex = 0;
+                break;
+            case $.ui.keyCode.SPACE:
+                // Activate only, no collapsing
+                event.preventDefault();
+                clearTimeout(this.activating);
+                this._activate(selectedIndex);
+                return;
+            case $.ui.keyCode.ENTER:
+                // Toggle (cancel delayed activation, allow collapsing)
+                event.preventDefault();
+                clearTimeout(this.activating);
+                // Determine if we should collapse or activate
+                this._activate(selectedIndex === this.options.active ? false : selectedIndex);
+                return;
+            default:
+                return;
             }
 
             // Focus the appropriate tab, based on which key was pressed
@@ -14191,8 +14177,7 @@
                             // loadError to manipulate the tab content panel via $(a.hash)
                             ajaxOptions.error(
                                 xhr, s, ui.tab.closest("li").index(), ui.tab[0]);
-                        }
-                        catch (e) {
+                        } catch (e) {
                         }
                     }
                 }, this._superApply(arguments));

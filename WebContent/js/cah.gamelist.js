@@ -315,10 +315,10 @@ cah.GameListLobby = function (parentElem, data) {
         cardSetNames.push(cah.CardSet.list[cardSetId].getName());
     }
 
-  var customCardSets = data[cah.$.GameInfo.CUSTOM_CARD_SETS];
-  for ( var key in customCardSets) {
-    cardSetNames.push("<i>" + customCardSets[key][cah.$.CardSetData.CARD_SET_NAME] + "</i>");
-  }
+    var customCardSets = data[cah.$.GameInfo.CUSTOM_CARD_SETS];
+    for (var key in customCardSets) {
+        cardSetNames.push("<i>" + customCardSets[key][cah.$.CardSetData.CARD_SET_NAME] + "</i>");
+    }
 
     $(".gamelist_lobby_cardset", this.element_).html(cardSetNames.join(', '));
 

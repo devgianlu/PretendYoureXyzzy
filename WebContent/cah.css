@@ -412,7 +412,7 @@ span.debug, span.admin {
 .game_right_side, .game_options {
     position: absolute;
     left: 246px;
-  width: 75%;
+    width: 75%;
 }
 
 .game_options {
@@ -421,9 +421,9 @@ span.debug, span.admin {
 }
 
 .custom_decks_list {
-  margin-top: 10px;
-  height: 120px;
-  width: 100%;
+    margin-top: 10px;
+    height: 120px;
+    width: 100%;
 }
 
 .game_right_side_box {
