@@ -28,7 +28,6 @@ import com.google.common.base.Charsets;
 import com.google.common.io.ByteSource;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import net.socialgamer.cah.CahModule;
 import net.socialgamer.cah.CahModule.CustomDecksAllowedUrls;
 import net.socialgamer.cah.CahModule.CustomDecksEnabled;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -74,7 +73,7 @@ public class CustomCardsService {
   /**
    * How long to cache valid card sets added by JSON.
    */
-  private static final long VALID_SET_CACHE_LIFETIME_JSON =  TimeUnit.HOURS.toMillis(12);
+  private static final long VALID_SET_CACHE_LIFETIME_JSON = TimeUnit.HOURS.toMillis(12);
 
   private static final AtomicInteger cardIdCounter = new AtomicInteger(Integer.MIN_VALUE);
   private static final AtomicInteger deckIdCounter = new AtomicInteger(0);

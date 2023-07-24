@@ -49,8 +49,7 @@ import java.util.*;
 @Singleton
 @GameId
 public class GameManager implements Provider<Integer> {
-  private static final Logger logger = LogManager.getLogger(GameManager.class);
-
+  private static final Logger LOG = LogManager.getLogger(GameManager.class);
   private final Provider<Integer> maxGamesProvider;
   private final Map<Integer, Game> games = new TreeMap<>();
   private final Provider<Game> gameProvider;
@@ -120,7 +119,7 @@ public class GameManager implements Provider<Integer> {
       }
       try {
         game.addPlayer(user);
-        logger.info(String.format("Created new game %d by user %s.",
+        LOG.info(String.format("Created new game %d by user %s.",
                 game.getId(), user.toString()));
       } catch (final IllegalStateException ise) {
         destroyGame(game.getId());
@@ -160,7 +159,7 @@ public class GameManager implements Provider<Integer> {
         game.removeSpectator(user);
       }
 
-      logger.info(String.format("Destroyed game %d.", game.getId()));
+      LOG.info(String.format("Destroyed game %d.", game.getId()));
       broadcastGameListRefresh();
     }
   }

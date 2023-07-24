@@ -77,7 +77,7 @@ public class Game {
    * We need 20 * maxPlayers cards. This allows black cards up to "draw 9" to work correctly.
    */
   public final static int MINIMUM_WHITE_CARDS_PER_PLAYER = 20;
-  private static final Logger logger = LogManager.getLogger(Game.class);
+  private static final Logger LOG = LogManager.getLogger(Game.class);
   /**
    * Time, in milliseconds, to delay before starting a new round.
    */
@@ -166,11 +166,11 @@ public class Game {
   /**
    * Create a new game.
    *
-   * @param id               The game's ID.
-   * @param connectedUsers   The user manager, for broadcasting messages.
-   * @param gameManager      The game manager, for broadcasting game list refresh notices and destroying this game
-   *                         when everybody leaves.
-   * @param globalTimer      The global timer on which to schedule tasks.
+   * @param id             The game's ID.
+   * @param connectedUsers The user manager, for broadcasting messages.
+   * @param gameManager    The game manager, for broadcasting game list refresh notices and destroying this game
+   *                       when everybody leaves.
+   * @param globalTimer    The global timer on which to schedule tasks.
    */
   @Inject
   public Game(@GameId final Integer id, final ConnectedUsers connectedUsers,
@@ -224,7 +224,7 @@ public class Game {
    * @throws IllegalStateException   Thrown if {@code user} is already in a game.
    */
   public void addPlayer(final User user) throws TooManyPlayersException, IllegalStateException {
-    logger.info(String.format("%s joined game %d.", user.toString(), id));
+    LOG.info(String.format("%s joined game %d.", user.toString(), id));
     synchronized (players) {
       if (options.playerLimit >= 3 && players.size() >= options.playerLimit) {
         throw new TooManyPlayersException();
@@ -257,7 +257,7 @@ public class Game {
    * @return True if {@code user} was the last player in the game.
    */
   public boolean removePlayer(final User user) {
-    logger.info(String.format("Removing %s from game %d.", user.toString(), id));
+    LOG.info(String.format("Removing %s from game %d.", user.toString(), id));
     boolean wasJudge = false;
     final Player player = getPlayerForUser(user);
 
@@ -326,7 +326,7 @@ public class Game {
         gameManager.destroyGame(id);
       }
       if (players.size() < 3 && state != GameState.LOBBY) {
-        logger.info(String.format("Resetting game %d due to too few players after someone left.", id));
+        LOG.info(String.format("Resetting game %d due to too few players after someone left.", id));
         resetState(true);
       } else if (wasJudge) {
         synchronized (roundTimerLock) {
@@ -354,7 +354,7 @@ public class Game {
    * @throws IllegalStateException      Thrown if {@code user} is already in a game.
    */
   public void addSpectator(final User user) throws TooManySpectatorsException, IllegalStateException {
-    logger.info(String.format("%s joined game %d as a spectator.", user.toString(), id));
+    LOG.info(String.format("%s joined game %d as a spectator.", user.toString(), id));
     synchronized (spectators) {
       if (spectators.size() >= options.spectatorLimit) {
         throw new TooManySpectatorsException();
@@ -380,7 +380,7 @@ public class Game {
    * @param user Spectator to remove from the game.
    */
   public void removeSpectator(final User user) {
-    logger.info(String.format("Removing spectator %s from game %d.", user.toString(), id));
+    LOG.info(String.format("Removing spectator %s from game %d.", user.toString(), id));
     synchronized (spectators) {
       if (!spectators.remove(user)) {
         return;
@@ -680,10 +680,10 @@ public class Game {
       }
       if (started) {
         currentUniqueId = uniqueIdProvider.get();
-        logger.info(String.format("Starting game %d with card sets %s, Cardcast %s, %d blanks, %d "
-                + "max players, %d max spectators, %d score limit, players %s, unique %s.",
-            id, options.cardSetIds, customDecksIds, options.blanksInDeck, options.playerLimit,
-            options.spectatorLimit, options.scoreGoal, players, currentUniqueId));
+        LOG.info(String.format("Starting game %d with card sets %s, Cardcast %s, %d blanks, %d "
+                        + "max players, %d max spectators, %d score limit, players %s, unique %s.",
+                id, options.cardSetIds, customDecksIds, options.blanksInDeck, options.playerLimit,
+                options.spectatorLimit, options.scoreGoal, players, currentUniqueId));
         // do this stuff outside the players lock; they will lock players again later for much less
         // time, and not at the same time as trying to lock users, which has caused deadlocks
         final List<CardSet> cardSets;
@@ -727,7 +727,7 @@ public class Game {
           final CustomDeck customDeck = service.loadSet(customDeckId);
           if (null == customDeck) {
             // TODO better way to indicate this to the user
-            logger.error(String.format("Unable to load custom deck %d", customDeckId));
+            LOG.error(String.format("Unable to load custom deck %d", customDeckId));
             return null;
           }
           cardSets.add(customDeck);
@@ -735,7 +735,7 @@ public class Game {
 
         return cardSets;
       } catch (final Exception e) {
-        logger.error(String.format("Unable to load cards for game %d", id), e);
+        LOG.error(String.format("Unable to load cards for game %d", id), e);
         return null;
       }
     }
@@ -951,7 +951,7 @@ public class Game {
         judge.skipped();
         judgeName = judge.getUser().getNickname();
       }
-      logger.info(String.format("Skipping idle judge %s in game %d", judgeName, id));
+      LOG.info(String.format("Skipping idle judge %s in game %d", judgeName, id));
       final HashMap<ReturnableData, Object> data = getEventMap();
       data.put(LongPollResponse.EVENT, LongPollEvent.GAME_JUDGE_SKIPPED.toString());
       broadcastToPlayers(MessageType.GAME_EVENT, data);
@@ -969,7 +969,7 @@ public class Game {
       for (final Player player : roundPlayers) {
         final List<WhiteCard> cards = playedCards.getCards(player);
         if (cards == null || cards.size() < blackCard.getPick()) {
-          logger.info(String.format("Skipping idle player %s in game %d.", player, id));
+          LOG.info(String.format("Skipping idle player %s in game %d.", player, id));
           player.skipped();
 
           final HashMap<ReturnableData, Object> data = getEventMap();
@@ -1005,7 +1005,7 @@ public class Game {
       if (state == GameState.PLAYING || playersToRemove.size() == 0) {
         // not sure how much of this check is actually required
         if (players.size() < 3 || playedCards.size() < 2) {
-          logger.info(String.format("Resetting game %d due to insufficient players after removing %d idle players.", id, playersToRemove.size()));
+          LOG.info(String.format("Resetting game %d due to insufficient players after removing %d idle players.", id, playersToRemove.size()));
           resetState(true);
         } else {
           judgingState();
@@ -1022,7 +1022,7 @@ public class Game {
   private void killRoundTimer() {
     synchronized (roundTimerLock) {
       if (null != lastScheduledFuture) {
-        logger.trace(String.format("Killing timer task %s", lastScheduledFuture));
+        LOG.trace(String.format("Killing timer task %s", lastScheduledFuture));
         lastScheduledFuture.cancel(false);
         lastScheduledFuture = null;
       }
@@ -1032,7 +1032,7 @@ public class Game {
   private void rescheduleTimer(final SafeTimerTask task, final long timeout) {
     synchronized (roundTimerLock) {
       killRoundTimer();
-      logger.trace(String.format("Scheduling timer task %s after %d ms", task, timeout));
+      LOG.trace(String.format("Scheduling timer task %s after %d ms", task, timeout));
       lastScheduledFuture = globalTimer.schedule(task, timeout, TimeUnit.MILLISECONDS);
     }
   }
@@ -1084,7 +1084,7 @@ public class Game {
    *                   previous game finished.
    */
   public void resetState(final boolean lostPlayer) {
-    logger.info(String.format("Resetting game %d to lobby (lostPlayer=%b)", id, lostPlayer));
+    LOG.info(String.format("Resetting game %d to lobby (lostPlayer=%b)", id, lostPlayer));
     killRoundTimer();
     synchronized (players) {
       for (final Player player : players) {

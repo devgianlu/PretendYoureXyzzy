@@ -25,8 +25,8 @@ package net.socialgamer.cah.servlets;
 
 import com.google.inject.Injector;
 import com.google.inject.Key;
-import net.socialgamer.cah.StartupUtils;
 import net.socialgamer.cah.CahModule.*;
+import net.socialgamer.cah.StartupUtils;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;

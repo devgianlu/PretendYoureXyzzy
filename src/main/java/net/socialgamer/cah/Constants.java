@@ -334,7 +334,7 @@ public class Constants {
     CANNOT_JOIN_ANOTHER_GAME("cjag", "You cannot join another game."),
     CAPSLOCK("CL", "Try turning caps lock off."),
     CUSTOM_SET_CANNOT_FIND("cscf", "Cannot find custom deck with the given ID or URL or invalid JSON "
-        + "was provided."),
+            + "was provided."),
     DO_NOT_HAVE_CARD("dnhc", "You don't have that card."),
     GAME_FULL("gf", "That game is full. Join another."),
     INVALID_CARD("ic", "Invalid card specified."),

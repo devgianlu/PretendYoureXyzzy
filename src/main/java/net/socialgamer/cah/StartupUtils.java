@@ -111,9 +111,10 @@ public class StartupUtils extends GuiceServletContextListener {
     }
   }
 
-  public static void reconfigureLogging(final ServletContext context) {
+  public static void reconfigureLogging() {
     LOG.info("Reloading log4j.properties");
-    URI log4jProps = URI.create(context.getRealPath("/WEB-INF/log4j.properties"));
+
+    URI log4jProps =  ConfigurationHolder.get().getLog4JConfig().toURI();
     ((org.apache.logging.log4j.core.LoggerContext) LogManager.getContext(false)).setConfigLocation(log4jProps);
   }
 
@@ -135,7 +136,8 @@ public class StartupUtils extends GuiceServletContextListener {
   @Override
   public void contextInitialized(final ServletContextEvent contextEvent) {
     final ServletContext context = contextEvent.getServletContext();
-    reconfigureLogging(context);
+    reconfigureLogging();
+
     final Injector injector = getInjector();
 
     final ScheduledThreadPoolExecutor timer = injector
@@ -167,12 +169,8 @@ public class StartupUtils extends GuiceServletContextListener {
             injector.getInstance(Key.get(String.class, UniqueId.class)));
   }
 
-  protected Injector getInjector(final ServletContext context) {
-    return Guice.createInjector(new CahModule(context));
-  }
-
   @Override
   protected Injector getInjector() {
-    throw new RuntimeException("Not supported.");
+    return Guice.createInjector(new CahModule());
   }
 }

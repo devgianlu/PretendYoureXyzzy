@@ -41,8 +41,6 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 
 import javax.annotation.Nonnull;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.*;
@@ -59,10 +57,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class CahModule extends AbstractModule {
   private static final Logger LOG = LogManager.getLogger(CahModule.class);
   private final Properties properties = new Properties();
-  private final ServletContext context;
 
-  public CahModule(ServletContext context) {
-    this.context = context;
+  public CahModule() {
   }
 
   @Override
@@ -82,7 +78,7 @@ public class CahModule extends AbstractModule {
     bind(Properties.class).toInstance(properties);
 
     // this is only so injected constructors can log
-    StartupUtils.reconfigureLogging(context);
+    StartupUtils.reconfigureLogging();
     // FIXME huge hack.
     StartupUtils.reloadProperties(properties);
     final String metricsClassName = properties.getProperty("pyx.metrics.impl");
