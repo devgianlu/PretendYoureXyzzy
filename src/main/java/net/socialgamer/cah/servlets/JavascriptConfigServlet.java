@@ -25,8 +25,8 @@ package net.socialgamer.cah.servlets;
 
 import com.google.inject.Injector;
 import com.google.inject.Key;
-import net.socialgamer.cah.StartupUtils;
 import net.socialgamer.cah.CahModule.*;
+import net.socialgamer.cah.StartupUtils;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -70,6 +70,9 @@ public class JavascriptConfigServlet extends HttpServlet {
     builder.append(String.format("cah.INSECURE_ID_ALLOWED = %b;\n", insecureIdAllowed));
     boolean broadcastingUsers = injector.getInstance(Key.get(Boolean.class, BroadcastConnectsAndDisconnects.class));
     builder.append(String.format("cah.BROADCASTING_USERS = %b;\n", broadcastingUsers));
+    builder.append(String.format("cah.BROADCASTING_USERS = %b;\n", broadcastingUsers));
+
+    builder.append(String.format("cah.CUSTOM_DECKS_ENABLED = %b;\n", injector.getInstance(Key.get(Boolean.class, CustomDecksEnabled.class))));
 
     builder.append(String.format("cah.MIN_PLAYER_LIMIT = %d;\n", injector.getInstance(Key.get(Integer.class, MinPlayerLimit.class))));
     builder.append(String.format("cah.DEFAULT_PLAYER_LIMIT = %d;\n", injector.getInstance(Key.get(Integer.class, DefaultPlayerLimit.class))));

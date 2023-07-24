@@ -21,64 +21,47 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.socialgamer.cah.cardcast;
+package net.socialgamer.cah.customsets;
 
-import net.socialgamer.cah.data.CardSet;
+import net.socialgamer.cah.data.BlackCard;
 
-import java.util.HashSet;
-import java.util.Set;
+public class CustomBlackCard extends BlackCard {
+  private final int id;
+  private final String text;
+  private final int draw;
+  private final int pick;
+  private final String watermark;
 
-
-public class CardcastDeck extends CardSet {
-  private final String name;
-  private final String code;
-  private final String description;
-  private final Set<CardcastBlackCard> blackCards = new HashSet<>();
-  private final Set<CardcastWhiteCard> whiteCards = new HashSet<>();
-
-  public CardcastDeck(final String name, final String code, final String description) {
-    this.name = name;
-    this.code = code;
-    this.description = description;
+  public CustomBlackCard(final int id, final String text, final int draw, final int pick, final String watermark) {
+    this.id = id;
+    this.text = text;
+    this.draw = draw;
+    this.pick = pick;
+    this.watermark = watermark;
   }
 
   @Override
   public int getId() {
-    return -Integer.parseInt(code, 36);
+    return id;
   }
 
   @Override
-  public String getName() {
-    return name;
+  public String getText() {
+    return text;
   }
 
   @Override
-  public String getDescription() {
-    return description;
+  public String getWatermark() {
+    return watermark;
   }
 
   @Override
-  public boolean isActive() {
-    return true;
+  public int getDraw() {
+    return draw;
   }
 
   @Override
-  public boolean isBaseDeck() {
-    return false;
-  }
-
-  @Override
-  public int getWeight() {
-    return Integer.MAX_VALUE;
-  }
-
-  @Override
-  public Set<CardcastBlackCard> getBlackCards() {
-    return blackCards;
-  }
-
-  @Override
-  public Set<CardcastWhiteCard> getWhiteCards() {
-    return whiteCards;
+  public int getPick() {
+    return pick;
   }
 }

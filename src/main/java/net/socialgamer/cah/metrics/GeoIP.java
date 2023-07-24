@@ -31,7 +31,8 @@ import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityResponse;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,7 +48,7 @@ import java.util.Properties;
 @Singleton
 public class GeoIP {
 
-  private static final Logger LOG = Logger.getLogger(GeoIP.class);
+  private static final Logger LOG = LogManager.getLogger(GeoIP.class);
   private final Provider<Properties> propertiesProvider;
   private DatabaseReader reader;
   private boolean initialized = false;

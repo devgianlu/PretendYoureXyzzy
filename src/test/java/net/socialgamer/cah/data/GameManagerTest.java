@@ -26,7 +26,6 @@ package net.socialgamer.cah.data;
 import com.google.inject.*;
 import net.socialgamer.cah.CahModule.*;
 import net.socialgamer.cah.HibernateUtil;
-import net.socialgamer.cah.cardcast.CardcastModule.CardcastCardId;
 import net.socialgamer.cah.data.GameManager.GameId;
 import net.socialgamer.cah.data.GameManager.MaxGames;
 import net.socialgamer.cah.data.QueuedMessage.MessageType;
@@ -39,7 +38,9 @@ import org.junit.Test;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -136,15 +137,21 @@ public class GameManagerTest {
       }
 
       @Provides
-      @CardcastCardId
-      Integer provideCardcastCardId() {
-        return 0;
-      }
-
-      @Provides
       @UniqueId
       String provideUniqueId() {
         return "1";
+      }
+
+      @Provides
+      @CustomDecksEnabled
+      Boolean provideCustomDecksEnabled() {
+        return true;
+      }
+
+      @Provides
+      @CustomDecksAllowedUrls
+      List<String> provideAllowedCustomDecksUrls() {
+        return Collections.singletonList("*");
       }
     });
 

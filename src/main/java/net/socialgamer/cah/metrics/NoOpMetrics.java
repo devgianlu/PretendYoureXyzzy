@@ -28,7 +28,8 @@ import com.maxmind.geoip2.model.CityResponse;
 import net.socialgamer.cah.data.BlackCard;
 import net.socialgamer.cah.data.CardSet;
 import net.socialgamer.cah.data.WhiteCard;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -44,7 +45,7 @@ import java.util.Map;
 @Singleton
 public class NoOpMetrics implements Metrics {
 
-  private static final Logger LOG = Logger.getLogger(NoOpMetrics.class);
+  private static final Logger LOG = LogManager.getLogger(NoOpMetrics.class);
 
   @Override
   public void shutdown() {

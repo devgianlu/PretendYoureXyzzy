@@ -155,96 +155,73 @@ function chatsubmit_click(game_id, parent_element) {
         }
         switch (cmd) {
             // TODO support an /ignore command
-            case '':
-                if (game_id !== null) {
-                    ajax = cah.Ajax.build(cah.$.AjaxOperation.GAME_CHAT).withGameId(game_id);
-                } else {
-                    ajax = cah.Ajax.build(cah.$.AjaxOperation.CHAT);
+        case '':
+            if (game_id !== null) {
+                ajax = cah.Ajax.build(cah.$.AjaxOperation.GAME_CHAT).withGameId(game_id);
+            } else {
+                ajax = cah.Ajax.build(cah.$.AjaxOperation.CHAT);
+            }
+            ajax = ajax.withEmote(false).withMessage(text);
+            var clazz = '';
+            if (cah.sigil == cah.$.Sigil.ADMIN) {
+                clazz = 'admin';
+            }
+            cah.log.status_with_game(game_id, "<" + cah.sigil + cah.nickname + "> " + text, clazz,
+                false, cah.log.getTitleForIdCode(cah.idcode));
+            break;
+        case 'me':
+            if (game_id !== null) {
+                ajax = cah.Ajax.build(cah.$.AjaxOperation.GAME_CHAT).withGameId(game_id);
+            } else {
+                ajax = cah.Ajax.build(cah.$.AjaxOperation.CHAT);
+            }
+            ajax = ajax.withEmote(true).withMessage(text);
+            var clazz = '';
+            if (cah.sigil == cah.$.Sigil.ADMIN) {
+                clazz = 'admin';
+            }
+            cah.log.status_with_game(game_id, "* " + cah.sigil + cah.nickname + " " + text, clazz,
+                false, cah.log.getTitleForIdCode(cah.idcode));
+            break;
+        case 'wall':
+            ajax = cah.Ajax.build(cah.$.AjaxOperation.CHAT).withWall(true).withMessage(text);
+            break;
+        case 'kick':
+            ajax = cah.Ajax.build(cah.$.AjaxOperation.KICK).withNickname(text.split(' ')[0]);
+            break;
+        case 'ban':
+            // this could also be an IP address
+            ajax = cah.Ajax.build(cah.$.AjaxOperation.BAN).withNickname(text.split(' ')[0]);
+            break;
+        case 'sync':
+            if (game_id !== null) {
+                var game = cah.currentGames[game_id];
+                if (game) {
+                    game.removeAllCards();
                 }
-                ajax = ajax.withEmote(false).withMessage(text);
-                var clazz = '';
-                if (cah.sigil == cah.$.Sigil.ADMIN) {
-                    clazz = 'admin';
-                }
-                cah.log.status_with_game(game_id, "<" + cah.sigil + cah.nickname + "> " + text, clazz,
-                    false, cah.log.getTitleForIdCode(cah.idcode));
-                break;
-            case 'me':
-                if (game_id !== null) {
-                    ajax = cah.Ajax.build(cah.$.AjaxOperation.GAME_CHAT).withGameId(game_id);
-                } else {
-                    ajax = cah.Ajax.build(cah.$.AjaxOperation.CHAT);
-                }
-                ajax = ajax.withEmote(true).withMessage(text);
-                var clazz = '';
-                if (cah.sigil == cah.$.Sigil.ADMIN) {
-                    clazz = 'admin';
-                }
-                cah.log.status_with_game(game_id, "* " + cah.sigil + cah.nickname + " " + text, clazz,
-                    false, cah.log.getTitleForIdCode(cah.idcode));
-                break;
-            case 'wall':
-                ajax = cah.Ajax.build(cah.$.AjaxOperation.CHAT).withWall(true).withMessage(text);
-                break;
-            case 'kick':
-                ajax = cah.Ajax.build(cah.$.AjaxOperation.KICK).withNickname(text.split(' ')[0]);
-                break;
-            case 'ban':
-                // this could also be an IP address
-                ajax = cah.Ajax.build(cah.$.AjaxOperation.BAN).withNickname(text.split(' ')[0]);
-                break;
-            case 'sync':
-                if (game_id !== null) {
-                    var game = cah.currentGames[game_id];
-                    if (game) {
-                        game.removeAllCards();
-                    }
-                    ajax = cah.Ajax.build(cah.$.AjaxOperation.GET_CARDS).withGameId(game_id);
-                } else {
-                    cah.log.error("This command only works in a game.");
-                }
-                break;
-            case 'score':
-                ajax = cah.Ajax.build(cah.$.AjaxOperation.SCORE).withMessage(text);
-                if (game_id != null) {
-                    ajax = ajax.withGameId(game_id);
-                }
-                break;
-            case 'names':
-                ajax = cah.Ajax.build(cah.$.AjaxOperation.NAMES);
-                break;
-            case 'addcardcast':
-                if (game_id !== null) {
-                    ajax = cah.Ajax.build(cah.$.AjaxOperation.CARDCAST_ADD_CARDSET).withCardcastId(
-                        text.split(' ')[0]).withGameId(game_id);
-                } else {
-                    cah.log.error("This command only works in a game.");
-                }
-                break;
-            case 'removecardcast':
-                if (game_id !== null) {
-                    ajax = cah.Ajax.build(cah.$.AjaxOperation.CARDCAST_REMOVE_CARDSET).withCardcastId(
-                        text.split(' ')[0]).withGameId(game_id);
-                } else {
-                    cah.log.error("This command only works in a game.");
-                }
-                break;
-            case 'listcardcast':
-                if (game_id !== null) {
-                    ajax = cah.Ajax.build(cah.$.AjaxOperation.CARDCAST_LIST_CARDSETS).withGameId(game_id);
-                } else {
-                    cah.log.error("This command only works in a game.");
-                }
-                break;
-            case 'whois':
-                ajax = cah.Ajax.build(cah.$.AjaxOperation.WHOIS).withNickname(text.split(' ')[0]);
-                // so we can show it in the right place; the server ignores this
-                if (game_id !== null) {
-                    ajax = ajax.withGameId(game_id);
-                }
-                break;
-            default:
-                cah.log.error("Invalid command.");
+                ajax = cah.Ajax.build(cah.$.AjaxOperation.GET_CARDS).withGameId(game_id);
+            } else {
+                cah.log.error("This command only works in a game.");
+            }
+            break;
+        case 'score':
+            ajax = cah.Ajax.build(cah.$.AjaxOperation.SCORE).withMessage(text);
+            if (game_id != null) {
+                ajax = ajax.withGameId(game_id);
+            }
+            break;
+        case 'names':
+            ajax = cah.Ajax.build(cah.$.AjaxOperation.NAMES);
+            break;
+        case 'whois':
+            ajax = cah.Ajax.build(cah.$.AjaxOperation.WHOIS).withNickname(text.split(' ')[0]);
+            // so we can show it in the right place; the server ignores this
+            if (game_id !== null) {
+                ajax = ajax.withGameId(game_id);
+            }
+            break;
+        default:
+            cah.log.error("Invalid command.");
         }
 
         if (ajax) {

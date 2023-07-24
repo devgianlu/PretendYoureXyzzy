@@ -21,7 +21,7 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.socialgamer.cah.cardcast;
+package net.socialgamer.cah.customsets;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -31,10 +31,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+public final class CustomCardFormatHelper {
+  private CustomCardFormatHelper() {
+  }
 
-public class CardcastFormatHelper {
-
-  public String formatBlackCard(final JSONArray textParts) {
+  public static String formatBlackCard(final JSONArray textParts) {
     // TODO this is going to need some work to look pretty.
     final List<String> strs = new ArrayList<>(textParts.length());
     for (final Object o : textParts) {
@@ -44,7 +45,7 @@ public class CardcastFormatHelper {
     return StringEscapeUtils.escapeXml11(text);
   }
 
-  public String formatWhiteCard(final JSONArray textParts) {
+  public static String formatWhiteCard(final JSONArray textParts) {
     // The white cards should only ever have one element in text, but let's be safe.
     final List<String> strs = new ArrayList<>(textParts.length());
     for (final Object o : textParts) {

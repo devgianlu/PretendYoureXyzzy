@@ -29,7 +29,8 @@ import net.socialgamer.cah.Constants.*;
 import net.socialgamer.cah.RequestWrapper;
 import net.socialgamer.cah.data.User;
 import net.socialgamer.cah.db.PyxCardSet;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -44,9 +45,8 @@ import java.util.*;
  * @author Andy Janata (ajanata@socialgamer.net)
  */
 public class FirstLoadHandler extends Handler {
-
+  private static final Logger LOG = LogManager.getLogger(FirstLoadHandler.class);
   public static final String OP = AjaxOperation.FIRST_LOAD.toString();
-  private static final Logger LOG = Logger.getLogger(FirstLoadHandler.class);
   private final Set<String> banList;
   private final Session hibernateSession;
   private final boolean includeInactiveCardsets;

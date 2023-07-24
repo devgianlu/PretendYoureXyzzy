@@ -31,7 +31,8 @@ import com.google.inject.Singleton;
 import net.socialgamer.cah.data.Game.TooManyPlayersException;
 import net.socialgamer.cah.data.GameManager.GameId;
 import net.socialgamer.cah.task.BroadcastGameListUpdateTask;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -48,8 +49,7 @@ import java.util.*;
 @Singleton
 @GameId
 public class GameManager implements Provider<Integer> {
-  private static final Logger logger = Logger.getLogger(GameManager.class);
-
+  private static final Logger LOG = LogManager.getLogger(GameManager.class);
   private final Provider<Integer> maxGamesProvider;
   private final Map<Integer, Game> games = new TreeMap<>();
   private final Provider<Game> gameProvider;
@@ -119,7 +119,7 @@ public class GameManager implements Provider<Integer> {
       }
       try {
         game.addPlayer(user);
-        logger.info(String.format("Created new game %d by user %s.",
+        LOG.info(String.format("Created new game %d by user %s.",
                 game.getId(), user.toString()));
       } catch (final IllegalStateException ise) {
         destroyGame(game.getId());
@@ -159,7 +159,7 @@ public class GameManager implements Provider<Integer> {
         game.removeSpectator(user);
       }
 
-      logger.info(String.format("Destroyed game %d.", game.getId()));
+      LOG.info(String.format("Destroyed game %d.", game.getId()));
       broadcastGameListRefresh();
     }
   }

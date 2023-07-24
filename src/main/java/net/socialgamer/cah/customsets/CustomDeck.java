@@ -21,26 +21,31 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.socialgamer.cah.cardcast;
+package net.socialgamer.cah.customsets;
 
-import net.socialgamer.cah.data.BlackCard;
+import net.socialgamer.cah.Constants;
+import net.socialgamer.cah.data.CardSet;
+
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 
-public class CardcastBlackCard extends BlackCard {
-
+public class CustomDeck extends CardSet {
   private final int id;
-  private final String text;
-  private final int draw;
-  private final int pick;
-  private final String deckId;
+  private final String name;
+  private final String watermark;
+  private final String description;
+  private final Set<CustomBlackCard> blackCards = new HashSet<>();
+  private final Set<CustomWhiteCard> whiteCards = new HashSet<>();
 
-  public CardcastBlackCard(final int id, final String text, final int draw, final int pick,
-                           final String deckId) {
+  public CustomDeck(final int id, final String name, final String watermark, final String description) {
     this.id = id;
-    this.text = text;
-    this.draw = draw;
-    this.pick = pick;
-    this.deckId = deckId;
+    this.name = name;
+    this.watermark = watermark;
+    this.description = description;
+
+    if (id >= 0) throw new IllegalArgumentException("Custom deck ID must be negative.");
   }
 
   @Override
@@ -49,22 +54,44 @@ public class CardcastBlackCard extends BlackCard {
   }
 
   @Override
-  public String getText() {
-    return text;
+  public String getName() {
+    return name;
   }
 
   @Override
-  public String getWatermark() {
-    return deckId;
+  public String getDescription() {
+    return description;
   }
 
   @Override
-  public int getDraw() {
-    return draw;
+  public boolean isActive() {
+    return true;
   }
 
   @Override
-  public int getPick() {
-    return pick;
+  public boolean isBaseDeck() {
+    return false;
+  }
+
+  @Override
+  public int getWeight() {
+    return Integer.MAX_VALUE;
+  }
+
+  @Override
+  public Set<CustomBlackCard> getBlackCards() {
+    return blackCards;
+  }
+
+  @Override
+  public Set<CustomWhiteCard> getWhiteCards() {
+    return whiteCards;
+  }
+
+  @Override
+  protected Map<Constants.CardSetData, Object> getCommonClientMetadata() {
+    Map<Constants.CardSetData, Object> data = super.getCommonClientMetadata();
+    data.put(Constants.CardSetData.WATERMARK, watermark);
+    return data;
   }
 }

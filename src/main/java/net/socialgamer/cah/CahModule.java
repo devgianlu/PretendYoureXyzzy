@@ -23,6 +23,7 @@
 
 package net.socialgamer.cah;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.AbstractModule;
 import com.google.inject.BindingAnnotation;
@@ -35,7 +36,8 @@ import net.socialgamer.cah.data.GameManager.MaxGames;
 import net.socialgamer.cah.data.User;
 import net.socialgamer.cah.metrics.Metrics;
 import net.socialgamer.cah.metrics.UniqueIds;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 
 import javax.annotation.Nonnull;
@@ -53,9 +55,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Andy Janata (ajanata@socialgamer.net)
  */
 public class CahModule extends AbstractModule {
-
-  private static final Logger LOG = Logger.getLogger(CahModule.class);
-
+  private static final Logger LOG = LogManager.getLogger(CahModule.class);
   private final Properties properties = new Properties();
 
   public CahModule() {
@@ -339,6 +339,58 @@ public class CahModule extends AbstractModule {
     synchronized (properties) {
       return Boolean.valueOf(properties.getProperty("pyx.server.allow_blank_cards", "true"));
     }
+  }
+
+  @Provides
+  @CustomDecksEnabled
+  Boolean provideCustomDecksEnabled() {
+    synchronized (properties) {
+      return Boolean.valueOf(properties.getProperty("pyx.server.custom_decks_enabled", "true"));
+    }
+  }
+
+  @Provides
+  @ShowAddCustomDeckUrl
+  Boolean provideShowAddCustomDeckUrl() {
+    synchronized (properties) {
+      return Boolean.valueOf(properties.getProperty("pyx.client.show_add_custom_deck_url", "true"));
+    }
+  }
+
+  @Provides
+  @ShowAddCustomDeckJson
+  Boolean provideShowAddCustomDeckJson() {
+    synchronized (properties) {
+      return Boolean.valueOf(properties.getProperty("pyx.client.show_add_custom_deck_json", "true"));
+    }
+  }
+
+  @Provides
+  @CustomDecksAllowedUrls
+  List<String> provideAllowedCustomDecksUrls() {
+    synchronized (properties) {
+      return ImmutableList.copyOf(properties.getProperty("pyx.server.allowed_custom_decks_urls", "").split(","));
+    }
+  }
+
+  @BindingAnnotation
+  @Retention(RetentionPolicy.RUNTIME)
+  public @interface CustomDecksEnabled {
+  }
+
+  @BindingAnnotation
+  @Retention(RetentionPolicy.RUNTIME)
+  public @interface ShowAddCustomDeckUrl {
+  }
+
+  @BindingAnnotation
+  @Retention(RetentionPolicy.RUNTIME)
+  public @interface ShowAddCustomDeckJson {
+  }
+
+  @BindingAnnotation
+  @Retention(RetentionPolicy.RUNTIME)
+  public @interface CustomDecksAllowedUrls {
   }
 
   @BindingAnnotation

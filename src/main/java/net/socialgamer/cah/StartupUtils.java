@@ -29,22 +29,21 @@ import com.google.inject.Key;
 import com.google.inject.servlet.GuiceServletContextListener;
 import net.socialgamer.cah.CahModule.ServerStarted;
 import net.socialgamer.cah.CahModule.UniqueId;
-import net.socialgamer.cah.cardcast.CardcastModule;
-import net.socialgamer.cah.cardcast.CardcastService;
+import net.socialgamer.cah.customsets.CustomCardsService;
 import net.socialgamer.cah.metrics.Metrics;
 import net.socialgamer.cah.task.BroadcastGameListUpdateTask;
 import net.socialgamer.cah.task.ServerIsAliveTask;
 import net.socialgamer.cah.task.UserPingTask;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
+import java.net.URI;
 import java.util.Date;
 import java.util.Properties;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-
 
 /**
  * Class with things that need to be done when the servlet context is created and destroyed. Creates
@@ -54,6 +53,8 @@ import java.util.concurrent.TimeUnit;
  * @author Andy Janata (ajanata@socialgamer.net)
  */
 public class StartupUtils extends GuiceServletContextListener {
+  private static final Logger LOG = LogManager.getLogger(StartupUtils.class);
+
   /**
    * Context attribute key name for the Guice injector.
    */
@@ -62,7 +63,6 @@ public class StartupUtils extends GuiceServletContextListener {
    * Context attribute key name for the time the server was started.
    */
   public static final String DATE_NAME = "started_at";
-  private static final Logger LOG = Logger.getLogger(StartupUtils.class);
   /**
    * Delay before the disconnected client timer is started when the server starts, in milliseconds.
    */
@@ -113,7 +113,9 @@ public class StartupUtils extends GuiceServletContextListener {
 
   public static void reconfigureLogging() {
     LOG.info("Reloading log4j.properties");
-    PropertyConfigurator.configure(ConfigurationHolder.get().getLog4JConfig().getAbsolutePath());
+
+    URI log4jProps =  ConfigurationHolder.get().getLog4JConfig().toURI();
+    ((org.apache.logging.log4j.core.LoggerContext) LogManager.getContext(false)).setConfigLocation(log4jProps);
   }
 
   @Override
@@ -135,6 +137,7 @@ public class StartupUtils extends GuiceServletContextListener {
   public void contextInitialized(final ServletContextEvent contextEvent) {
     final ServletContext context = contextEvent.getServletContext();
     reconfigureLogging();
+
     final Injector injector = getInjector();
 
     final ScheduledThreadPoolExecutor timer = injector
@@ -159,7 +162,7 @@ public class StartupUtils extends GuiceServletContextListener {
     // this is called in the process of setting up the injector right now... ideally we wouldn't
     // need to do that there and can just do it here again.
     // reloadProperties(context);
-    CardcastService.hackSslVerifier();
+    CustomCardsService.hackSslVerifier();
 
     // log that the server (re-)started to metrics logging (to flush all old games and users)
     injector.getInstance(Metrics.class).serverStart(
@@ -168,6 +171,6 @@ public class StartupUtils extends GuiceServletContextListener {
 
   @Override
   protected Injector getInjector() {
-    return Guice.createInjector(new CahModule(), new CardcastModule());
+    return Guice.createInjector(new CahModule());
   }
 }

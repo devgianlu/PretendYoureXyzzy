@@ -1,18 +1,18 @@
 package net.socialgamer.cah.task;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 public abstract class SafeTimerTask implements Runnable {
-
-  private static final Logger logger = Logger.getLogger(SafeTimerTask.class);
+  private static final Logger LOG = LogManager.getLogger(SafeTimerTask.class);
 
   @Override
   public final void run() {
     try {
       process();
     } catch (Exception ex) {
-      logger.error("Exception running SafeTimerTask", ex);
+      LOG.error("Exception running SafeTimerTask", ex);
     }
   }
 

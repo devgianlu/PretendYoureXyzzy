@@ -27,14 +27,15 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import net.socialgamer.cah.CahModule.*;
 import net.socialgamer.cah.Constants.*;
-import net.socialgamer.cah.cardcast.CardcastDeck;
-import net.socialgamer.cah.cardcast.CardcastService;
+import net.socialgamer.cah.customsets.CustomCardsService;
+import net.socialgamer.cah.customsets.CustomDeck;
 import net.socialgamer.cah.data.GameManager.GameId;
 import net.socialgamer.cah.data.QueuedMessage.MessageType;
 import net.socialgamer.cah.metrics.Metrics;
 import net.socialgamer.cah.task.SafeTimerTask;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 
 import javax.annotation.Nonnull;
@@ -76,7 +77,7 @@ public class Game {
    * We need 20 * maxPlayers cards. This allows black cards up to "draw 9" to work correctly.
    */
   public final static int MINIMUM_WHITE_CARDS_PER_PLAYER = 20;
-  private static final Logger logger = Logger.getLogger(Game.class);
+  private static final Logger LOG = LogManager.getLogger(Game.class);
   /**
    * Time, in milliseconds, to delay before starting a new round.
    */
@@ -127,7 +128,7 @@ public class Game {
   private final Provider<Session> sessionProvider;
   private final Object blackCardLock = new Object();
   private final GameOptions options;
-  private final Set<String> cardcastDeckIds = Collections.synchronizedSet(new HashSet<>());
+  private final Set<Integer> customDecksIds = Collections.synchronizedSet(new HashSet<Integer>());
   private final Metrics metrics;
   private final Provider<Boolean> showGameLinkProvider;
   private final Provider<String> gamePermalinkFormatProvider;
@@ -146,7 +147,7 @@ public class Game {
    */
   private final Object roundTimerLock = new Object();
   private final ScheduledThreadPoolExecutor globalTimer;
-  private final Provider<CardcastService> cardcastServiceProvider;
+  private final Provider<CustomCardsService> customDecksServiceProvider;
   private final Provider<String> uniqueIdProvider;
   private Player host;
   private BlackDeck blackDeck;
@@ -172,14 +173,24 @@ public class Game {
    * @param globalTimer    The global timer on which to schedule tasks.
    */
   @Inject
-  public Game(@GameId final Integer id, final ConnectedUsers connectedUsers, final GameManager gameManager, final ScheduledThreadPoolExecutor globalTimer, final Provider<Session> sessionProvider, final Provider<CardcastService> cardcastServiceProvider, @UniqueId final Provider<String> uniqueIdProvider, final Metrics metrics, @ShowRoundPermalink final Provider<Boolean> showRoundLinkProvider, @RoundPermalinkUrlFormat final Provider<String> roundPermalinkFormatProvider, @ShowGamePermalink final Provider<Boolean> showGameLinkProvider, @GamePermalinkUrlFormat final Provider<String> gamePermalinkFormatProvider, @AllowBlankCards final Provider<Boolean> allowBlankCardsProvider, final Provider<GameOptions> gameOptionsProvider) {
+  public Game(@GameId final Integer id, final ConnectedUsers connectedUsers,
+              final GameManager gameManager, final ScheduledThreadPoolExecutor globalTimer,
+              final Provider<Session> sessionProvider,
+              final Provider<CustomCardsService> customDecksServiceProvider,
+              @UniqueId final Provider<String> uniqueIdProvider,
+              final Metrics metrics, @ShowRoundPermalink final Provider<Boolean> showRoundLinkProvider,
+              @RoundPermalinkUrlFormat final Provider<String> roundPermalinkFormatProvider,
+              @ShowGamePermalink final Provider<Boolean> showGameLinkProvider,
+              @GamePermalinkUrlFormat final Provider<String> gamePermalinkFormatProvider,
+              @AllowBlankCards final Provider<Boolean> allowBlankCardsProvider,
+              final Provider<GameOptions> gameOptionsProvider) {
     this.id = id;
     this.options = gameOptionsProvider.get();
     this.connectedUsers = connectedUsers;
     this.gameManager = gameManager;
     this.globalTimer = globalTimer;
     this.sessionProvider = sessionProvider;
-    this.cardcastServiceProvider = cardcastServiceProvider;
+    this.customDecksServiceProvider = customDecksServiceProvider;
     this.uniqueIdProvider = uniqueIdProvider;
     this.metrics = metrics;
     this.showRoundLinkProvider = showRoundLinkProvider;
@@ -213,7 +224,7 @@ public class Game {
    * @throws IllegalStateException   Thrown if {@code user} is already in a game.
    */
   public void addPlayer(final User user) throws TooManyPlayersException, IllegalStateException {
-    logger.info(String.format("%s joined game %d.", user.toString(), id));
+    LOG.info(String.format("%s joined game %d.", user.toString(), id));
     synchronized (players) {
       if (options.playerLimit >= 3 && players.size() >= options.playerLimit) {
         throw new TooManyPlayersException();
@@ -246,7 +257,7 @@ public class Game {
    * @return True if {@code user} was the last player in the game.
    */
   public boolean removePlayer(final User user) {
-    logger.info(String.format("Removing %s from game %d.", user.toString(), id));
+    LOG.info(String.format("Removing %s from game %d.", user.toString(), id));
     boolean wasJudge = false;
     final Player player = getPlayerForUser(user);
 
@@ -315,7 +326,7 @@ public class Game {
         gameManager.destroyGame(id);
       }
       if (players.size() < 3 && state != GameState.LOBBY) {
-        logger.info(String.format("Resetting game %d due to too few players after someone left.", id));
+        LOG.info(String.format("Resetting game %d due to too few players after someone left.", id));
         resetState(true);
       } else if (wasJudge) {
         synchronized (roundTimerLock) {
@@ -343,7 +354,7 @@ public class Game {
    * @throws IllegalStateException      Thrown if {@code user} is already in a game.
    */
   public void addSpectator(final User user) throws TooManySpectatorsException, IllegalStateException {
-    logger.info(String.format("%s joined game %d as a spectator.", user.toString(), id));
+    LOG.info(String.format("%s joined game %d as a spectator.", user.toString(), id));
     synchronized (spectators) {
       if (spectators.size() >= options.spectatorLimit) {
         throw new TooManySpectatorsException();
@@ -369,7 +380,7 @@ public class Game {
    * @param user Spectator to remove from the game.
    */
   public void removeSpectator(final User user) {
-    logger.info(String.format("Removing spectator %s from game %d.", user.toString(), id));
+    LOG.info(String.format("Removing spectator %s from game %d.", user.toString(), id));
     synchronized (spectators) {
       if (!spectators.remove(user)) {
         return;
@@ -476,8 +487,8 @@ public class Game {
     notifyGameOptionsChanged();
   }
 
-  public Set<String> getCardcastDeckIds() {
-    return cardcastDeckIds;
+  public Set<Integer> getCustomDeckIds() {
+    return customDecksIds;
   }
 
   /**
@@ -529,6 +540,15 @@ public class Game {
       spectatorNames.add(spectator.getNickname());
     }
     info.put(GameInfo.SPECTATORS, spectatorNames);
+
+    CustomCardsService customCardsService = customDecksServiceProvider.get();
+    final List<Map<CardSetData, Object>> cardSets = new ArrayList<>();
+    for (final Integer deckId : getCustomDeckIds().toArray(new Integer[0])) {
+      final CustomDeck deck = customCardsService.loadSet(deckId);
+      if (null == deck) continue;
+      cardSets.add(deck.getClientMetadata());
+    }
+    info.put(GameInfo.CUSTOM_CARD_SETS, cardSets);
 
     return info;
   }
@@ -660,7 +680,10 @@ public class Game {
       }
       if (started) {
         currentUniqueId = uniqueIdProvider.get();
-        logger.info(String.format("Starting game %d with card sets %s, Cardcast %s, %d blanks, %d " + "max players, %d max spectators, %d score limit, players %s, unique %s.", id, options.cardSetIds, cardcastDeckIds, options.blanksInDeck, options.playerLimit, options.spectatorLimit, options.scoreGoal, players, currentUniqueId));
+        LOG.info(String.format("Starting game %d with card sets %s, Cardcast %s, %d blanks, %d "
+                        + "max players, %d max spectators, %d score limit, players %s, unique %s.",
+                id, options.cardSetIds, customDecksIds, options.blanksInDeck, options.playerLimit,
+                options.spectatorLimit, options.scoreGoal, players, currentUniqueId));
         // do this stuff outside the players lock; they will lock players again later for much less
         // time, and not at the same time as trying to lock users, which has caused deadlocks
         final List<CardSet> cardSets;
@@ -694,25 +717,25 @@ public class Game {
         // Not injecting the service itself because we might need to assisted inject it later
         // with card id stuff.
         // also TODO maybe make card ids longs instead of ints
-        final CardcastService service = cardcastServiceProvider.get();
+        final CustomCardsService service = customDecksServiceProvider.get();
 
         // Avoid ConcurrentModificationException
-        for (final String cardcastId : cardcastDeckIds.toArray(new String[0])) {
+        for (final Integer customDeckId : customDecksIds.toArray(new Integer[0])) {
           // Ideally, we can assume that anything in that set is going to load, but it is entirely
           // possible that the cache has expired and we can't re-load it for some reason, so
           // let's be safe.
-          final CardcastDeck cardcastDeck = service.loadSet(cardcastId);
-          if (null == cardcastDeck) {
+          final CustomDeck customDeck = service.loadSet(customDeckId);
+          if (null == customDeck) {
             // TODO better way to indicate this to the user
-            logger.error(String.format("Unable to load %s from Cardcast", cardcastId));
+            LOG.error(String.format("Unable to load custom deck %d", customDeckId));
             return null;
           }
-          cardSets.add(cardcastDeck);
+          cardSets.add(customDeck);
         }
 
         return cardSets;
       } catch (final Exception e) {
-        logger.error(String.format("Unable to load cards for game %d", id), e);
+        LOG.error(String.format("Unable to load cards for game %d", id), e);
         return null;
       }
     }
@@ -928,7 +951,7 @@ public class Game {
         judge.skipped();
         judgeName = judge.getUser().getNickname();
       }
-      logger.info(String.format("Skipping idle judge %s in game %d", judgeName, id));
+      LOG.info(String.format("Skipping idle judge %s in game %d", judgeName, id));
       final HashMap<ReturnableData, Object> data = getEventMap();
       data.put(LongPollResponse.EVENT, LongPollEvent.GAME_JUDGE_SKIPPED.toString());
       broadcastToPlayers(MessageType.GAME_EVENT, data);
@@ -946,7 +969,7 @@ public class Game {
       for (final Player player : roundPlayers) {
         final List<WhiteCard> cards = playedCards.getCards(player);
         if (cards == null || cards.size() < blackCard.getPick()) {
-          logger.info(String.format("Skipping idle player %s in game %d.", player, id));
+          LOG.info(String.format("Skipping idle player %s in game %d.", player, id));
           player.skipped();
 
           final HashMap<ReturnableData, Object> data = getEventMap();
@@ -982,7 +1005,7 @@ public class Game {
       if (state == GameState.PLAYING || playersToRemove.size() == 0) {
         // not sure how much of this check is actually required
         if (players.size() < 3 || playedCards.size() < 2) {
-          logger.info(String.format("Resetting game %d due to insufficient players after removing %d idle players.", id, playersToRemove.size()));
+          LOG.info(String.format("Resetting game %d due to insufficient players after removing %d idle players.", id, playersToRemove.size()));
           resetState(true);
         } else {
           judgingState();
@@ -999,7 +1022,7 @@ public class Game {
   private void killRoundTimer() {
     synchronized (roundTimerLock) {
       if (null != lastScheduledFuture) {
-        logger.trace(String.format("Killing timer task %s", lastScheduledFuture));
+        LOG.trace(String.format("Killing timer task %s", lastScheduledFuture));
         lastScheduledFuture.cancel(false);
         lastScheduledFuture = null;
       }
@@ -1009,7 +1032,7 @@ public class Game {
   private void rescheduleTimer(final SafeTimerTask task, final long timeout) {
     synchronized (roundTimerLock) {
       killRoundTimer();
-      logger.trace(String.format("Scheduling timer task %s after %d ms", task, timeout));
+      LOG.trace(String.format("Scheduling timer task %s after %d ms", task, timeout));
       lastScheduledFuture = globalTimer.schedule(task, timeout, TimeUnit.MILLISECONDS);
     }
   }
@@ -1061,7 +1084,7 @@ public class Game {
    *                   previous game finished.
    */
   public void resetState(final boolean lostPlayer) {
-    logger.info(String.format("Resetting game %d to lobby (lostPlayer=%b)", id, lostPlayer));
+    LOG.info(String.format("Resetting game %d to lobby (lostPlayer=%b)", id, lostPlayer));
     killRoundTimer();
     synchronized (players) {
       for (final Player player : players) {

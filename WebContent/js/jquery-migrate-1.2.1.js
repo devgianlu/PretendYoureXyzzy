@@ -81,9 +81,9 @@
     var attrFn = jQuery("<input/>", {
             size: 1
         }).attr("size") && jQuery.attrFn, oldAttr = jQuery.attr, valueAttrGet = jQuery.attrHooks.value
-        && jQuery.attrHooks.value.get || function () {
-            return null;
-        }, valueAttrSet = jQuery.attrHooks.value && jQuery.attrHooks.value.set || function () {
+            && jQuery.attrHooks.value.get || function () {
+                return null;
+            }, valueAttrSet = jQuery.attrHooks.value && jQuery.attrHooks.value.set || function () {
             return undefined;
         }, rnoType = /^(?:input|button)$/i, rnoAttrNodeType = /^[238]$/,
         rboolean = /^(?:autofocus|autoplay|async|checked|controls|defer|disabled|hidden|loop|multiple|open|readonly|required|scoped|selected)$/i,
@@ -367,8 +367,8 @@
     var eventAdd = jQuery.event.add, eventRemove = jQuery.event.remove, eventTrigger = jQuery.event.trigger,
         oldToggle = jQuery.fn.toggle, oldLive = jQuery.fn.live, oldDie = jQuery.fn.die,
         ajaxEvents = "ajaxStart|ajaxStop|ajaxSend|ajaxComplete|ajaxError|ajaxSuccess", rajaxEvent = new RegExp(
-        "\\b(?:" + ajaxEvents + ")\\b"), rhoverHack = /(?:^|\s)hover(\.\S+|)\b/, hoverHack = function (
-        events) {
+            "\\b(?:" + ajaxEvents + ")\\b"), rhoverHack = /(?:^|\s)hover(\.\S+|)\b/, hoverHack = function (
+            events) {
             if (typeof (events) !== "string" || jQuery.event.special.hover) {
                 return events;
             }

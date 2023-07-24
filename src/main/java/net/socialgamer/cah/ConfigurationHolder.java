@@ -1,7 +1,8 @@
 package net.socialgamer.cah;
 
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.cfg.Configuration;
 
 import javax.annotation.Nonnull;
@@ -15,7 +16,7 @@ import java.util.Properties;
  * @author Gianlu
  */
 public class ConfigurationHolder {
-  private static final Logger logger = Logger.getLogger(ConfigurationHolder.class);
+  private static final Logger LOG = LogManager.getLogger(ConfigurationHolder.class);
   private static ConfigurationHolder instance;
   private final File webContent;
   private final File pyxConfig;
@@ -66,7 +67,7 @@ public class ConfigurationHolder {
         arg = arg.substring(2);
         int pos = arg.indexOf('=');
         if (pos == -1) {
-          logger.warn("Invalid argument: " + arg);
+          LOG.warn("Invalid argument: " + arg);
           continue;
         }
 
@@ -76,7 +77,7 @@ public class ConfigurationHolder {
 
         map.put(arg.substring(0, pos), value);
       } else {
-        logger.warn("Invalid argument: " + arg);
+        LOG.warn("Invalid argument: " + arg);
       }
     }
     return map;

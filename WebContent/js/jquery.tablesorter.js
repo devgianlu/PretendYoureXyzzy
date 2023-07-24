@@ -582,7 +582,7 @@
                         // ? makeSortText(c) : makeSortTextDesc(c)) : ((order == 0) ?
                         // makeSortNumeric(c) : makeSortNumericDesc(c));
                         var s = (table.config.parsers[c].type == "text") ? ((order == 0) ? makeSortFunction(
-                            "text", "asc", c) : makeSortFunction("text", "desc", c))
+                                "text", "asc", c) : makeSortFunction("text", "desc", c))
                             : ((order == 0) ? makeSortFunction("numeric", "asc", c) : makeSortFunction(
                                 "numeric", "desc", c));
                         var e = "e" + i;
@@ -872,7 +872,7 @@
                     }
                 };
             };
-})
+        })
 
 
     // extend plugin scope

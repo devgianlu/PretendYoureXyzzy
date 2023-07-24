@@ -33,9 +33,10 @@ import net.socialgamer.cah.Constants.*;
 import net.socialgamer.cah.data.QueuedMessage.MessageType;
 import net.socialgamer.cah.metrics.GeoIP;
 import net.socialgamer.cah.metrics.Metrics;
-import org.apache.log4j.Logger;
-import org.jetbrains.annotations.Nullable;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import javax.annotation.Nullable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.*;
@@ -52,6 +53,7 @@ import java.util.stream.Collectors;
  */
 @Singleton
 public class ConnectedUsers {
+  private static final Logger LOG = LogManager.getLogger(ConnectedUsers.class);
 
   /**
    * Duration of a ping timeout, in nanoseconds.
@@ -61,7 +63,6 @@ public class ConnectedUsers {
    * Duration of an idle timeout, in nanoseconds.
    */
   public static final long IDLE_TIMEOUT = TimeUnit.MINUTES.toNanos(60);
-  private static final Logger logger = Logger.getLogger(ConnectedUsers.class);
   final Provider<Boolean> broadcastConnectsAndDisconnectsProvider;
   final Provider<Integer> maxUsersProvider;
   final GeoIP geoIp;
@@ -102,15 +103,15 @@ public class ConnectedUsers {
     final int maxUsers = maxUsersProvider.get();
     synchronized (users) {
       if (this.hasUser(user.getNickname())) {
-        logger.info(String.format("Rejecting existing username %s from %s", user.toString(),
+        LOG.info(String.format("Rejecting existing username %s from %s", user.toString(),
                 user.getHostname()));
         return ErrorCode.NICK_IN_USE;
       } else if (users.size() >= maxUsers && !user.isAdmin()) {
-        logger.warn(String.format("Rejecting user %s due to too many users (%d >= %d)",
+        LOG.warn(String.format("Rejecting user %s due to too many users (%d >= %d)",
                 user.toString(), users.size(), maxUsers));
         return ErrorCode.TOO_MANY_USERS;
       } else {
-        logger.info(String.format("New user %s from %s (admin=%b, id=%s)", user.toString(),
+        LOG.info(String.format("New user %s from %s (admin=%b, id=%s)", user.toString(),
                 user.getHostname(), user.isAdmin(), user.getIdCode()));
         users.put(user.getNickname().toLowerCase(), user);
         final HashMap<ReturnableData, Object> data = new HashMap<>();
@@ -129,7 +130,7 @@ public class ConnectedUsers {
           final InetAddress addr = InetAddress.getByName(user.getHostname());
           geo = geoIp.getInfo(addr);
         } catch (final UnknownHostException e) {
-          logger.warn(String.format("Unable to get address for user %s (hostname: %s)",
+          LOG.warn(String.format("Unable to get address for user %s (hostname: %s)",
                   user.getNickname(), user.getHostname()), e);
         }
         metrics.userConnect(user.getPersistentId(), user.getSessionId(), geo, user.getAgentName(),
@@ -150,7 +151,7 @@ public class ConnectedUsers {
   public void removeUser(final User user, final DisconnectReason reason) {
     synchronized (users) {
       if (users.containsKey(user.getNickname().toLowerCase())) {
-        logger.info(String.format("Removing user %s because %s", user.toString(), reason));
+        LOG.info(String.format("Removing user %s because %s", user.toString(), reason));
         user.noLongerValid();
         users.remove(user.getNickname().toLowerCase());
         notifyRemoveUser(user, reason);
@@ -220,10 +221,10 @@ public class ConnectedUsers {
       try {
         entry.getKey().noLongerValid();
         notifyRemoveUser(entry.getKey(), entry.getValue());
-        logger.info(String.format("Automatically kicking user %s due to %s", entry.getKey(),
+        LOG.info(String.format("Automatically kicking user %s due to %s", entry.getKey(),
                 entry.getValue()));
       } catch (final Exception e) {
-        logger.error("Unable to remove pinged-out user", e);
+        LOG.error("Unable to remove pinged-out user", e);
       }
     }
   }

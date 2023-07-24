@@ -33,7 +33,8 @@ import net.socialgamer.cah.data.User;
 import net.socialgamer.cah.util.IdCodeMangler;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHeaders;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -49,9 +50,8 @@ import java.util.regex.Pattern;
  * @author Andy Janata (ajanata@socialgamer.net)
  */
 public class RegisterHandler extends Handler {
-
+  private static final Logger LOG = LogManager.getLogger(RegisterHandler.class);
   public static final String OP = AjaxOperation.REGISTER.toString();
-  private static final Logger LOG = Logger.getLogger(RegisterHandler.class);
   private static final Pattern VALID_NAME = Pattern.compile("[a-zA-Z_][a-zA-Z0-9_]{2,29}");
   private static final int ID_CODE_MIN_LENGTH = 8;
   private static final int ID_CODE_MAX_LENGTH = 100;

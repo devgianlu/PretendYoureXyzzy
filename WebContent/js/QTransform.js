@@ -108,12 +108,12 @@
             } else {
                 var originX = $.data(elem, 'transformOriginX');
                 switch (originX) {
-                    case 'left':
-                        return '0%';
-                    case 'center':
-                        return '50%';
-                    case 'right':
-                        return '100%';
+                case 'left':
+                    return '0%';
+                case 'center':
+                    return '50%';
+                case 'right':
+                    return '100%';
                 }
                 return originX ? originX : '50%';
             }
@@ -140,12 +140,12 @@
             } else {
                 var originY = $.data(elem, 'transformOriginY');
                 switch (originY) {
-                    case 'top':
-                        return '0%';
-                    case 'center':
-                        return '50%';
-                    case 'bottom':
-                        return '100%';
+                case 'top':
+                    return '0%';
+                case 'center':
+                    return '50%';
+                case 'bottom':
+                    return '100%';
                 }
                 return originY ? originY : '50%';
             }
@@ -322,7 +322,7 @@
         var props, prop, name, transform;
         // break up into single transform calls
         $(elem.style[$.cssProps.transform].replace(/(?:\,\s|\)|\()/g, "|").split(" "))
-        // read each data point for the transform call
+            // read each data point for the transform call
             .each(function (i, item) {
                 if (item !== '') {
                     if (props === undefined) {

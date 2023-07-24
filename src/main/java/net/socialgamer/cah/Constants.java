@@ -124,9 +124,9 @@ public class Constants {
   public enum AjaxOperation {
     ADMIN_SET_VERBOSE_LOG("svl"),
     BAN("b"),
-    CARDCAST_ADD_CARDSET("cac"),
-    CARDCAST_LIST_CARDSETS("clc"),
-    CARDCAST_REMOVE_CARDSET("crc"),
+    ADD_CARDSET("acs"),
+    LIST_CARDSETS("lcs"),
+    REMOVE_CARDSET("rcs"),
     CHANGE_GAME_OPTIONS("cgo"),
     CHAT("c"),
     CREATE_GAME("cg"),
@@ -174,7 +174,10 @@ public class Constants {
   public enum AjaxRequest {
     @GoDataType("int")
     CARD_ID("cid"),
-    CARDCAST_ID("cci"),
+    @GoDataType("int")
+    CUSTOM_CARDSET_ID("cci"),
+    CUSTOM_CARDSET_URL("ccu"),
+    CUSTOM_CARDSET_JSON("ccj"),
     @GoDataType("bool")
     EMOTE("me"),
     @GoDataType("int")
@@ -330,9 +333,8 @@ public class Constants {
     BANNED(DisconnectReason.BANNED, "Banned."),
     CANNOT_JOIN_ANOTHER_GAME("cjag", "You cannot join another game."),
     CAPSLOCK("CL", "Try turning caps lock off."),
-    CARDCAST_CANNOT_FIND("ccf", "Cannot find Cardcast deck with given ID. If you just added this"
-            + " deck to Cardcast, wait a few minutes and try again."),
-    CARDCAST_INVALID_ID("cii", "Invalid Cardcast ID. Must be exactly 5 characters."),
+    CUSTOM_SET_CANNOT_FIND("cscf", "Cannot find custom deck with the given ID or URL or invalid JSON "
+            + "was provided."),
     DO_NOT_HAVE_CARD("dnhc", "You don't have that card."),
     GAME_FULL("gf", "That game is full. Join another."),
     INVALID_CARD("ic", "Invalid card specified."),
@@ -419,9 +421,9 @@ public class Constants {
     @DuplicationAllowed
     BANNED(DisconnectReason.BANNED),
     @DuplicationAllowed
-    CARDCAST_ADD_CARDSET(AjaxOperation.CARDCAST_ADD_CARDSET),
+    ADD_CARDSET(AjaxOperation.ADD_CARDSET),
     @DuplicationAllowed
-    CARDCAST_REMOVE_CARDSET(AjaxOperation.CARDCAST_REMOVE_CARDSET),
+    REMOVE_CARDSET(AjaxOperation.REMOVE_CARDSET),
     @DuplicationAllowed
     CHAT(AjaxOperation.CHAT),
     FILTERED_CHAT("FC"),
@@ -477,7 +479,7 @@ public class Constants {
     @DuplicationAllowed
     @GoDataType("BlackCardData")
     BLACK_CARD(AjaxResponse.BLACK_CARD),
-    CARDCAST_DECK_INFO("cdi"),
+    CUSTOM_DECK_INFO("cdi"),
     @DuplicationAllowed
     @GoDataType("bool")
     EMOTE(AjaxRequest.EMOTE),
@@ -662,6 +664,8 @@ public class Constants {
     CARD_SET_DESCRIPTION("csd"),
     CARD_SET_NAME("csn"),
     @DuplicationAllowed
+    WATERMARK(WhiteCardData.WATERMARK),
+    @DuplicationAllowed
     @GoDataType("int")
     ID(WhiteCardData.ID),
     @GoDataType("int")
@@ -727,6 +731,8 @@ public class Constants {
     @DuplicationAllowed
     @GoDataType("GameOptionData")
     GAME_OPTIONS(AjaxRequest.GAME_OPTIONS),
+    @GoDataType("[]CardSetData")
+    CUSTOM_CARD_SETS("ccs"),
     @GoDataType("bool")
     HAS_PASSWORD("hp"),
     @GoDataType("[]string")
@@ -864,7 +870,7 @@ public class Constants {
     /**
      * @return The user-visible string that is associated with this enum value.
      */
-    String getString();
+    public String getString();
   }
 
   /**
@@ -876,12 +882,12 @@ public class Constants {
     /**
      * @return The first user-visible string that is associated with this enum value.
      */
-    String getString();
+    public String getString();
 
     /**
      * @return The second user-visible string that is associated with this enum value.
      */
-    String getString2();
+    public String getString2();
   }
 
   /**

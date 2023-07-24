@@ -7,7 +7,8 @@ import net.socialgamer.cah.data.ConnectedUsers;
 import net.socialgamer.cah.data.QueuedMessage;
 import net.socialgamer.cah.data.QueuedMessage.MessageType;
 import net.socialgamer.cah.data.User;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -15,8 +16,9 @@ import java.util.Map;
 
 
 public class KickHandler extends Handler {
+  protected final Logger LOG = LogManager.getLogger(KickHandler.class);
+
   public static final String OP = AjaxOperation.KICK.toString();
-  protected final Logger logger = Logger.getLogger(KickHandler.class);
   private final ConnectedUsers connectedUsers;
 
   @Inject
@@ -49,7 +51,7 @@ public class KickHandler extends Handler {
     kickUser.enqueueMessage(qm);
 
     connectedUsers.removeUser(kickUser, DisconnectReason.KICKED);
-    logger.warn(String.format("Kicking %s by request of %s", kickUser.getNickname(),
+    LOG.warn(String.format("Kicking %s by request of %s", kickUser.getNickname(),
             user.getNickname()));
 
     return new HashMap<>();

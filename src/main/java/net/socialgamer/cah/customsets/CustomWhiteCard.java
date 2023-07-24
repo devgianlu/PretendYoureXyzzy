@@ -21,21 +21,19 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.socialgamer.cah.cardcast;
+package net.socialgamer.cah.customsets;
 
 import net.socialgamer.cah.data.WhiteCard;
 
-
-public class CardcastWhiteCard extends WhiteCard {
-
+public class CustomWhiteCard extends WhiteCard {
   private final int id;
   private final String text;
-  private final String deckId;
+  private final String watermark;
 
-  public CardcastWhiteCard(final int id, final String text, final String deckId) {
+  public CustomWhiteCard(final int id, final String text, final String watermark) {
     this.id = id;
     this.text = text;
-    this.deckId = deckId;
+    this.watermark = watermark;
   }
 
   @Override
@@ -50,7 +48,7 @@ public class CardcastWhiteCard extends WhiteCard {
 
   @Override
   public String getWatermark() {
-    return deckId;
+    return watermark;
   }
 
   @Override

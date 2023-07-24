@@ -6,7 +6,8 @@ import com.google.inject.Singleton;
 import net.socialgamer.cah.CahModule;
 import net.socialgamer.cah.serveralive.DiffieHellman;
 import net.socialgamer.cah.serveralive.ServerAliveConnectionHolder;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 import java.io.BufferedOutputStream;
@@ -29,7 +30,7 @@ import java.security.spec.InvalidKeySpecException;
 @Singleton
 public class ServerIsAliveTask extends SafeTimerTask {
   private static final URL GET_MY_IP;
-  private static final Logger logger = Logger.getLogger(ServerIsAliveTask.class);
+  private static final Logger LOG = LogManager.getLogger(ServerIsAliveTask.class);
   private static final URL AM_ALIVE_API;
 
   static {
@@ -84,12 +85,12 @@ public class ServerIsAliveTask extends SafeTimerTask {
             JSONObject obj = new JSONObject(reader.readLine());
             host = obj.getString("ip");
             port = discoveryPortProvider.get();
-            logger.info("Successfully retrieved server IP: " + host);
+            LOG.info("Successfully retrieved server IP: " + host);
           }
 
           conn.disconnect();
         } catch (IOException ex) {
-          logger.error("Failed retrieving server IP!", ex);
+          LOG.error("Failed retrieving server IP!", ex);
         }
       }
     }
@@ -121,16 +122,16 @@ public class ServerIsAliveTask extends SafeTimerTask {
           JSONObject resp = new JSONObject(reader.readLine());
           byte[] sharedKey = diffieHellman.computeSharedKey(new BigInteger(resp.getString("publicKey"), 16));
           ServerAliveConnectionHolder.init(sharedKey);
-          logger.info("Registered to discovery API!");
+          LOG.info("Registered to discovery API!");
         }
       } else {
-        logger.error("Failed registering to the discovery API: " + conn.getResponseCode());
+        LOG.error("Failed registering to the discovery API: " + conn.getResponseCode());
       }
 
       conn.disconnect();
     } catch (IOException | InvalidKeyException | NoSuchAlgorithmException | InvalidAlgorithmParameterException |
              InvalidKeySpecException ex) {
-      logger.error("Failed contacting server discovery API!", ex);
+      LOG.error("Failed contacting server discovery API!", ex);
     }
   }
 }

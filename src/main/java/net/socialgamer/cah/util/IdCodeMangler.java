@@ -25,7 +25,8 @@ package net.socialgamer.cah.util;
 
 import com.google.inject.Inject;
 import net.socialgamer.cah.CahModule.IdCodeSalt;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
@@ -34,7 +35,7 @@ import java.util.Base64;
 
 
 public class IdCodeMangler {
-  private static final Logger LOG = Logger.getLogger(IdCodeMangler.class);
+  private static final Logger LOG = LogManager.getLogger(IdCodeMangler.class);
 
   private final String salt;
   private final Base64.Encoder encoder = Base64.getEncoder();

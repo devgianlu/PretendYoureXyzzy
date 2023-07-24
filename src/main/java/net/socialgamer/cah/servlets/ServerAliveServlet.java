@@ -1,7 +1,8 @@
 package net.socialgamer.cah.servlets;
 
 import net.socialgamer.cah.serveralive.ServerAliveConnectionHolder;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -18,13 +19,13 @@ import java.math.BigInteger;
  */
 @WebServlet("/ServerAlive")
 public class ServerAliveServlet extends HttpServlet {
-  private static final Logger logger = Logger.getLogger(ServerAliveServlet.class);
+  private static final Logger LOG = LogManager.getLogger(ServerAliveServlet.class);
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     ServerAliveConnectionHolder holder = ServerAliveConnectionHolder.get();
     if (holder == null) {
-      logger.warn("ServerAliveConnectionHolder isn't initialized!");
+      LOG.warn("ServerAliveConnectionHolder isn't initialized!");
       resp.setStatus(400);
       return;
     }
@@ -38,7 +39,7 @@ public class ServerAliveServlet extends HttpServlet {
     String uuid = new String(challenge);
     resp.getWriter().write(uuid);
 
-    logger.trace("Decoded ServerAlive payload: " + uuid);
-    logger.debug(holder);
+    LOG.trace("Decoded ServerAlive payload: " + uuid);
+    LOG.debug(holder);
   }
 }

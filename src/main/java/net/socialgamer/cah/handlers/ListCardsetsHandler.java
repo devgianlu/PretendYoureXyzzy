@@ -3,8 +3,8 @@ package net.socialgamer.cah.handlers;
 import com.google.inject.Inject;
 import net.socialgamer.cah.Constants.*;
 import net.socialgamer.cah.RequestWrapper;
-import net.socialgamer.cah.cardcast.CardcastDeck;
-import net.socialgamer.cah.cardcast.CardcastService;
+import net.socialgamer.cah.customsets.CustomCardsService;
+import net.socialgamer.cah.customsets.CustomDeck;
 import net.socialgamer.cah.data.Game;
 import net.socialgamer.cah.data.GameManager;
 import net.socialgamer.cah.data.User;
@@ -15,17 +15,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CardcastListCardsetsHandler extends GameWithPlayerHandler {
+public class ListCardsetsHandler extends GameWithPlayerHandler {
 
-  public static final String OP = AjaxOperation.CARDCAST_LIST_CARDSETS.toString();
+  public static final String OP = AjaxOperation.LIST_CARDSETS.toString();
 
-  private final CardcastService cardcastService;
+  private final CustomCardsService customCardsService;
 
   @Inject
-  public CardcastListCardsetsHandler(final GameManager gameManager,
-                                     final CardcastService cardcastService) {
+  public ListCardsetsHandler(final GameManager gameManager,
+                             final CustomCardsService customCardsService) {
     super(gameManager);
-    this.cardcastService = cardcastService;
+    this.customCardsService = customCardsService;
   }
 
   @Override
@@ -34,11 +34,11 @@ public class CardcastListCardsetsHandler extends GameWithPlayerHandler {
     final Map<ReturnableData, Object> data = new HashMap<>();
 
     final List<Map<CardSetData, Object>> setDatas = new ArrayList<>();
-    for (final String deckId : game.getCardcastDeckIds().toArray(new String[0])) {
-      final CardcastDeck deck = cardcastService.loadSet(deckId);
+    for (final Integer deckId : game.getCustomDeckIds().toArray(new Integer[0])) {
+      final CustomDeck deck = customCardsService.loadSet(deckId);
       if (null == deck) {
         // FIXME we need a way to tell the user which one is broken.
-        return error(ErrorCode.CARDCAST_CANNOT_FIND);
+        return error(ErrorCode.CUSTOM_SET_CANNOT_FIND);
       }
       setDatas.add(deck.getClientMetadata());
     }

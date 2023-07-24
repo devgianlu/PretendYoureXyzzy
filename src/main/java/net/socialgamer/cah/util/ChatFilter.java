@@ -29,7 +29,8 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import net.socialgamer.cah.Constants;
 import net.socialgamer.cah.data.User;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -41,11 +42,11 @@ import java.util.regex.Pattern;
  */
 @Singleton
 public class ChatFilter {
+  private static final Logger LOG = LogManager.getLogger(ChatFilter.class);
   public static final String DEFAULT_SHADOWBAN_PROVIDER = DefaultShadowBannedStringsProvider.class
           .getCanonicalName();
   public static final Pattern SIMPLE_MESSAGE_PATTERN = Pattern
           .compile("^[a-zA-Z0-9 _\\-=+*()\\[\\]\\\\/|,.!\\?:'\"`~#]+$");
-  private static final Logger LOG = Logger.getLogger(ChatFilter.class);
   private static final int DEFAULT_CHAT_FLOOD_MESSAGE_COUNT = 4;
   private static final int DEFAULT_CHAT_FLOOD_TIME_SECONDS = 30;
   private static final int DEFAULT_BASIC_MIN_MSG_LENGTH = 10;

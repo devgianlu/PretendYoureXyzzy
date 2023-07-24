@@ -33,7 +33,6 @@ import net.socialgamer.cah.data.GameManager;
 import net.socialgamer.cah.data.QueuedMessage.MessageType;
 import net.socialgamer.cah.data.User;
 import net.socialgamer.cah.util.ChatFilter;
-import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -46,9 +45,7 @@ import java.util.Map;
  * @author Andy Janata (ajanata@socialgamer.net)
  */
 public class GameChatHandler extends GameWithPlayerHandler {
-
   public static final String OP = AjaxOperation.GAME_CHAT.toString();
-  private static final Logger LOG = Logger.getLogger(GameChatHandler.class);
   private final ChatFilter chatFilter;
   private final ConnectedUsers users;
   private final boolean gameChatEnabled;
