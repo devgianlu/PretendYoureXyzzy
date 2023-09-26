@@ -23,6 +23,7 @@
 
 package net.socialgamer.cah.handlers;
 
+import com.google.common.net.HttpHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import net.socialgamer.cah.CahModule.*;
@@ -32,7 +33,6 @@ import net.socialgamer.cah.data.ConnectedUsers;
 import net.socialgamer.cah.data.User;
 import net.socialgamer.cah.util.IdCodeMangler;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpHeaders;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

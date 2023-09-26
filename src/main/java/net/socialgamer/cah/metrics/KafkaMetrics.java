@@ -382,7 +382,7 @@ public class KafkaMetrics implements Metrics {
         producer = null;
         if (null != oldProducer) {
           LOG.info("Closing producer after exception.");
-          oldProducer.close(0, TimeUnit.MILLISECONDS);
+          oldProducer.close();
         }
       }
     }
