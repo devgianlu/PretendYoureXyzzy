@@ -64,8 +64,6 @@ public class Main {
                             .addInitParam("compilerTargetVM", "1.8"),
                     Servlets.servlet("ServerAliveServlet", ServerAliveServlet.class)
                             .addMapping("/ServerAlive"),
-                    Servlets.servlet("SchemaServlet", Schema.class)
-                            .addMapping("/Schema"),
                     Servlets.servlet("AjaxServlet", AjaxServlet.class)
                             .addMapping("/AjaxServlet"),
                     Servlets.servlet("JsConfigServlet", JavascriptConfigServlet.class)

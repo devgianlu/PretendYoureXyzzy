@@ -126,19 +126,29 @@
             <version>3.5</version>
         </dependency>
         <dependency>
-            <groupId>org.hibernate</groupId>
+            <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-core</artifactId>
-      <version>4.3.11.Final</version>
+            <version>6.3.1.Final</version>
         </dependency>
         <dependency>
-            <groupId>org.hibernate</groupId>
+            <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-c3p0</artifactId>
-      <version>4.3.11.Final</version>
-    </dependency>
-    <dependency>
-      <groupId>com.dampcake</groupId>
-      <artifactId>bencode</artifactId>
-      <version>1.3.1</version>
+            <version>6.3.1.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-community-dialects</artifactId>
+            <version>6.3.1.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-ant</artifactId>
+            <version>6.1.4.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>com.dampcake</groupId>
+            <artifactId>bencode</artifactId>
+            <version>1.3.1</version>
         </dependency>
         <dependency>
             <groupId>org.json</groupId>
