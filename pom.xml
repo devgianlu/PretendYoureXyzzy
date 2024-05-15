@@ -143,7 +143,7 @@
         <dependency>
             <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-community-dialects</artifactId>
-            <version>6.4.6.Final</version>
+            <version>6.5.1.Final</version>
         </dependency>
         <dependency>
             <groupId>com.dampcake</groupId>
